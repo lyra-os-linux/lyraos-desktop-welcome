@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Lyra Welcome",
+  "version": "0.1.0",
+  "identifier": "org.lyraos.LyraWelcome",
+  "build": {
+    "frontendDist": "../ui"
+  },
+  "app": {
+    "enableGTKAppId": true,
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "title": "Welcome to Lyra OS",
+        "width": 1040,
+        "height": 720,
+        "minWidth": 780,
+        "minHeight": 600,
+        "resizable": true,
+        "maximizable": true,
+        "minimizable": true,
+        "center": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'"
+    }
+  },
+  "bundle": {
+    "active": false,
+    "targets": "all",
+    "shortDescription": "Welcome to Lyra OS",
+    "icon": ["icons/icon.png"]
+  }
+}

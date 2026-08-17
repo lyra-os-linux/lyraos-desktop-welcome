@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+Name=Lyra Welcome first login
+Name[pt_BR]=Boas-vindas do Lyra no primeiro login
+Name[es]=Bienvenida de Lyra en el primer inicio
+Comment=Show Lyra Welcome once for each installed user
+Comment[pt_BR]=Mostra as boas-vindas do Lyra uma vez para cada usuário instalado
+Comment[es]=Muestra la bienvenida de Lyra una vez para cada usuario instalado
+TryExec=/usr/bin/lyra-welcome
+Exec=/usr/bin/lyra-welcome-first-login
+Icon=org.lyraos.LyraWelcome
+Terminal=false
+OnlyShowIn=GNOME;
+X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-Delay=2
+StartupNotify=true
+StartupWMClass=lyra-welcome

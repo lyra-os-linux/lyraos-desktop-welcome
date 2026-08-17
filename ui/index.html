@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Welcome to Lyra OS</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="i18n.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div class="brand" aria-label="Lyra OS">
+          <span class="brand-mark" aria-hidden="true">✦</span>
+          <span>LYRA <b>OS</b></span>
+        </div>
+        <span class="edition">ODISSEIA · ALPHA</span>
+      </header>
+
+      <section class="hero" aria-labelledby="welcome-title">
+        <div class="hero-copy">
+          <p class="eyebrow" data-i18n="eyebrow">YOUR SYSTEM IS READY</p>
+          <h1 id="welcome-title"><span data-i18n="welcome">Welcome to</span><br /><em>Lyra OS.</em></h1>
+          <p class="lead" data-i18n="lead">A calm, dependable desktop built on openSUSE. Everything you need is ready, without getting in your way.</p>
+        </div>
+        <div class="constellation" aria-hidden="true">
+          <span class="star star-a"></span><span class="star star-b"></span>
+          <span class="star star-c"></span><span class="star star-d"></span>
+          <span class="star star-e"></span>
+          <svg viewBox="0 0 360 300"><path d="M58 220 118 82 202 132 292 60 265 238 202 132 58 220" /></svg>
+          <div class="orb"><span>✦</span></div>
+        </div>
+      </section>
+
+      <section class="features" aria-label="Lyra OS highlights" data-i18n-aria="featuresLabel">
+        <article>
+          <span class="feature-icon" aria-hidden="true">◇</span>
+          <div><h2 data-i18n="stableTitle">Stable by design</h2><p data-i18n="stableText">A conservative base, integrated and tested for everyday use.</p></div>
+        </article>
+        <article>
+          <span class="feature-icon" aria-hidden="true">↺</span>
+          <div><h2 data-i18n="updatesTitle">Updates you control</h2><p data-i18n="updatesText">Signed packages and system recovery keep changes predictable.</p></div>
+        </article>
+        <article>
+          <span class="feature-icon" aria-hidden="true">⌘</span>
+          <div><h2 data-i18n="readyTitle">Ready to work</h2><p data-i18n="readyText">A carefully selected desktop with useful tools from the first boot.</p></div>
+        </article>
+      </section>
+
+      <footer>
+        <p><span class="status-dot"></span><span data-i18n="status">System ready</span></p>
+        <button id="start" type="button"><span data-i18n="start">Start using Lyra</span><span aria-hidden="true">→</span></button>
+      </footer>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=Lyra Welcome
+Name[pt_BR]=Boas-vindas do Lyra
+Name[es]=Bienvenida de Lyra
+Comment=Discover your new Lyra OS desktop
+Comment[pt_BR]=Conheça seu novo desktop Lyra OS
+Comment[es]=Descubre tu nuevo escritorio Lyra OS
+Exec=/usr/bin/lyra-welcome
+Icon=org.lyraos.LyraWelcome
+Terminal=false
+Categories=System;
+StartupNotify=true
+StartupWMClass=lyra-welcome

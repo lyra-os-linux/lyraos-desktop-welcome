@@ -1,0 +1,6 @@
+-------------------------------------------------------------------
+Mon Aug 17 22:30:00 UTC 2026 - Lyra OS Release <rodrigo@w3ti.com.br>
+
+- Add the localized Lyra Welcome application for en-US, pt-BR and es-ES.
+- Start once per installed user through XDG autostart while excluding liveuser.
+- Persist completion only after a clean application exit.

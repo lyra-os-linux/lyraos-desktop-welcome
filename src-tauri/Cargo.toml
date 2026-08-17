@@ -1,0 +1,12 @@
+[package]
+name = "lyra-welcome"
+version = "0.1.0"
+edition = "2024"
+license = "GPL-3.0-only"
+description = "Welcome application for Lyra OS"
+
+[build-dependencies]
+tauri-build = { version = "2.6.3", features = [] }
+
+[dependencies]
+tauri = { version = "2.11.5", features = [] }

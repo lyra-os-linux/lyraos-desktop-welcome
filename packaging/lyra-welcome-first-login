@@ -1,0 +1,26 @@
+#!/bin/bash
+set -u
+
+# The live session has its own installer experience. Welcome belongs to the
+# first session of each real, installed user.
+if [[ ${USER:-} == liveuser ]] || [[ $(id -un) == liveuser ]]; then
+    exit 0
+fi
+
+state_root=${XDG_STATE_HOME:-"${HOME}/.local/state"}
+state_dir="${state_root}/lyra"
+completed="${state_dir}/welcome-completed"
+
+if [[ -e ${completed} ]]; then
+    exit 0
+fi
+
+mkdir -p -- "${state_dir}" || exit 1
+chmod 700 -- "${state_dir}" || exit 1
+
+if /usr/bin/lyra-welcome; then
+    marker_tmp="${completed}.tmp.$$"
+    printf 'completed\n' >"${marker_tmp}" || exit 1
+    chmod 600 -- "${marker_tmp}" || exit 1
+    mv -f -- "${marker_tmp}" "${completed}"
+fi
