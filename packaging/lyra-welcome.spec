@@ -1,6 +1,7 @@
 Name:           lyra-welcome
 Version:        0.1.0
 Release:        0
+%global debug_package %{nil}
 Summary:        First-login welcome application for Lyra OS
 License:        GPL-3.0-only
 URL:            https://github.com/britors/Lyra
