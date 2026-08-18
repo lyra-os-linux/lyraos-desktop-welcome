@@ -27,6 +27,29 @@ class WelcomeContractTests(unittest.TestCase):
         self.assertIn("fn close_welcome(window: tauri::WebviewWindow)", rust)
         self.assertIn("window.close()", rust)
 
+    def test_page_navigation_is_bounded(self) -> None:
+        app = (WELCOME / "ui/app.js").read_text(encoding="utf-8")
+        markup = (WELCOME / "ui/index.html").read_text(encoding="utf-8")
+        styles = (WELCOME / "ui/spacing.css").read_text(encoding="utf-8")
+        self.assertIn("Math.min(current + 1, pages.length - 1)", app)
+        self.assertIn("Math.max(current - 1, 0)", app)
+        self.assertIn("Math.max(0, Math.min(current, pages.length - 1))", app)
+        self.assertIn("[hidden]", styles)
+        self.assertIn("display: none !important", styles)
+        self.assertEqual(markup.count('tabindex="-1"'), 3)
+        self.assertIn('querySelector("h1").focus({ preventScroll: true })', app)
+
+    def test_native_integrations_use_fixed_system_commands(self) -> None:
+        rust = (WELCOME / "src-tauri/src/main.rs").read_text(encoding="utf-8")
+        spec = (WELCOME / "packaging/lyra-welcome.spec").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('Command::new("/usr/bin/nmcli")', rust)
+        self.assertIn('launch("/usr/bin/gnome-control-center", &["wifi"])', rust)
+        self.assertIn('launch("/usr/bin/vega-gtk", &[])', rust)
+        for package in ("NetworkManager", "gnome-control-center", "vega-gtk"):
+            self.assertRegex(spec, rf"(?m)^Requires:\s+{re.escape(package)}$")
+
     def test_first_login_launcher_is_fail_closed_and_per_user(self) -> None:
         launcher = WELCOME / "packaging/lyra-welcome-first-login"
         content = launcher.read_text(encoding="utf-8")

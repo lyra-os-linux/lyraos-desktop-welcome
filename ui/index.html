@@ -5,52 +5,74 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Welcome to Lyra OS</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="spacing.css" />
     <script src="i18n.js" defer></script>
     <script src="app.js" defer></script>
   </head>
   <body>
     <main class="shell">
       <header class="topbar">
-        <div class="brand" aria-label="Lyra OS">
-          <span class="brand-mark" aria-hidden="true">✦</span>
-          <span>LYRA <b>OS</b></span>
-        </div>
+        <div class="brand" aria-label="Lyra OS"><span class="brand-mark" aria-hidden="true">✦</span><span>LYRA <b>OS</b></span></div>
         <span class="edition">ODISSEIA · ALPHA</span>
       </header>
 
-      <section class="hero" aria-labelledby="welcome-title">
-        <div class="hero-copy">
-          <p class="eyebrow" data-i18n="eyebrow">YOUR SYSTEM IS READY</p>
-          <h1 id="welcome-title"><span data-i18n="welcome">Welcome to</span><br /><em>Lyra OS.</em></h1>
-          <p class="lead" data-i18n="lead">A calm, dependable desktop built on openSUSE. Everything you need is ready, without getting in your way.</p>
+      <div class="progress" aria-label="Setup progress" data-i18n-aria="progressLabel">
+        <span class="progress-dot active" aria-hidden="true"></span>
+        <span class="progress-dot" aria-hidden="true"></span>
+        <span class="progress-dot" aria-hidden="true"></span>
+        <span id="step-label" class="step-label" aria-live="polite"></span>
+      </div>
+
+      <section class="page active" data-page="project" aria-labelledby="project-title">
+        <div class="copy">
+          <p class="eyebrow" data-i18n="projectEyebrow">MEET YOUR SYSTEM</p>
+          <h1 id="project-title" tabindex="-1"><span data-i18n="welcome">Welcome to</span><br /><em>Lyra OS.</em></h1>
+          <p class="lead" data-i18n="projectLead">A calm, dependable desktop built on openSUSE and refined as one coherent product.</p>
+          <div class="features" aria-label="Lyra OS principles" data-i18n-aria="featuresLabel">
+            <article><span aria-hidden="true">◇</span><div><h2 data-i18n="stableTitle">Stable by design</h2><p data-i18n="stableText">Conservative choices, integration tests and long-term support.</p></div></article>
+            <article><span aria-hidden="true">↺</span><div><h2 data-i18n="recoveryTitle">Ready to recover</h2><p data-i18n="recoveryText">Predictable updates backed by openSUSE recovery tools.</p></div></article>
+          </div>
         </div>
-        <div class="constellation" aria-hidden="true">
-          <span class="star star-a"></span><span class="star star-b"></span>
-          <span class="star star-c"></span><span class="star star-d"></span>
-          <span class="star star-e"></span>
-          <svg viewBox="0 0 360 300"><path d="M58 220 118 82 202 132 292 60 265 238 202 132 58 220" /></svg>
-          <div class="orb"><span>✦</span></div>
-        </div>
+        <div class="visual constellation" aria-hidden="true"><span class="star a"></span><span class="star b"></span><span class="star c"></span><svg viewBox="0 0 360 300"><path d="M58 220 118 82 202 132 292 60 265 238 202 132 58 220" /></svg><div class="orb">✦</div></div>
       </section>
 
-      <section class="features" aria-label="Lyra OS highlights" data-i18n-aria="featuresLabel">
-        <article>
-          <span class="feature-icon" aria-hidden="true">◇</span>
-          <div><h2 data-i18n="stableTitle">Stable by design</h2><p data-i18n="stableText">A conservative base, integrated and tested for everyday use.</p></div>
-        </article>
-        <article>
-          <span class="feature-icon" aria-hidden="true">↺</span>
-          <div><h2 data-i18n="updatesTitle">Updates you control</h2><p data-i18n="updatesText">Signed packages and system recovery keep changes predictable.</p></div>
-        </article>
-        <article>
-          <span class="feature-icon" aria-hidden="true">⌘</span>
-          <div><h2 data-i18n="readyTitle">Ready to work</h2><p data-i18n="readyText">A carefully selected desktop with useful tools from the first boot.</p></div>
-        </article>
+      <section class="page" data-page="network" aria-labelledby="network-title" hidden>
+        <div class="copy">
+          <p class="eyebrow" data-i18n="networkEyebrow">GET CONNECTED</p>
+          <h1 id="network-title" tabindex="-1" data-i18n="networkTitle">Connect to Wi-Fi</h1>
+          <p class="lead" data-i18n="networkLead">An internet connection helps Lyra fetch updates and install applications. You can also continue offline.</p>
+          <div id="network-status" class="status-card checking" role="status" aria-live="polite">
+            <span class="status-icon" aria-hidden="true">◌</span>
+            <div><strong data-i18n="networkChecking">Checking your connection…</strong><p data-i18n="networkCheckingText">This takes only a moment.</p></div>
+          </div>
+          <div class="actions-inline">
+            <button id="open-wifi" class="primary" type="button" hidden data-i18n="openWifi">Open Wi-Fi settings</button>
+            <button id="check-network" class="secondary" type="button" data-i18n="checkAgain">Check again</button>
+          </div>
+        </div>
+        <div class="visual network-visual" aria-hidden="true"><span class="wifi-ring ring-1"></span><span class="wifi-ring ring-2"></span><span class="wifi-ring ring-3"></span><span class="wifi-core">●</span></div>
+      </section>
+
+      <section class="page" data-page="vega" aria-labelledby="vega-title" hidden>
+        <div class="copy">
+          <p class="eyebrow" data-i18n="vegaEyebrow">YOUR CONTROL CENTER</p>
+          <h1 id="vega-title" tabindex="-1" data-i18n="vegaTitle">Meet Vega</h1>
+          <p class="lead" data-i18n="vegaLead">Vega brings Lyra's settings and maintenance tools together in one clear place.</p>
+          <div class="vega-card">
+            <span class="vega-mark" aria-hidden="true">✦</span>
+            <div><h2 data-i18n="vegaCardTitle">Configure Lyra with confidence</h2><p data-i18n="vegaCardText">Review system options, hardware and software without searching through separate tools.</p></div>
+          </div>
+          <button id="open-vega" class="secondary launch" type="button"><span data-i18n="openVega">Open Vega</span><span aria-hidden="true">↗</span></button>
+          <p id="launch-status" class="launch-status" role="status" aria-live="polite"></p>
+        </div>
+        <div class="visual vega-visual" aria-hidden="true"><div class="vega-window"><div class="window-bar"><i></i><i></i><i></i></div><div class="window-body"><span></span><span></span><span></span><b>✦</b></div></div></div>
       </section>
 
       <footer>
-        <p><span class="status-dot"></span><span data-i18n="status">System ready</span></p>
-        <button id="start" type="button"><span data-i18n="start">Start using Lyra</span><span aria-hidden="true">→</span></button>
+        <button id="back" class="secondary" type="button" hidden><span aria-hidden="true">←</span><span data-i18n="back">Back</span></button>
+        <span class="footer-spacer"></span>
+        <button id="next" class="primary" type="button"><span data-i18n="next">Next</span><span aria-hidden="true">→</span></button>
+        <button id="finish" class="primary" type="button" hidden><span data-i18n="finish">Start using Lyra</span><span aria-hidden="true">→</span></button>
       </footer>
     </main>
   </body>

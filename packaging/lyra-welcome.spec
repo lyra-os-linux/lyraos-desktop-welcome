@@ -19,6 +19,9 @@ BuildRequires:  webkit2gtk3-devel
 BuildRequires:  zstd
 Requires:       bash
 Requires:       coreutils
+Requires:       NetworkManager
+Requires:       gnome-control-center
+Requires:       vega-gtk
 
 %description
 Lyra Welcome is the small, localized introduction shown once on the first

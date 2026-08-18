@@ -1,4 +1,12 @@
 -------------------------------------------------------------------
+Tue Aug 18 00:00:00 UTC 2026 - Lyra OS Release <rodrigo@w3ti.com.br>
+
+- Add project, Wi-Fi connection and Vega introduction pages.
+- Report the current network state and open GNOME Wi-Fi settings when offline.
+- Keep navigation bounded and expose only valid actions on the first and last pages.
+- Declare the native NetworkManager, GNOME Control Center and Vega dependencies.
+
+-------------------------------------------------------------------
 Mon Aug 17 22:30:00 UTC 2026 - Lyra OS Release <rodrigo@w3ti.com.br>
 
 - Add the localized Lyra Welcome application for en-US, pt-BR and es-ES.
