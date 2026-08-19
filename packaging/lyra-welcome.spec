@@ -22,6 +22,8 @@ Requires:       coreutils
 Requires:       NetworkManager
 Requires:       gnome-control-center
 Requires:       vega-gtk
+# gsettings, used to read and switch the GNOME Shell desktop profile.
+Requires:       glib2-tools
 
 %description
 Lyra Welcome is the small, localized introduction shown once on the first

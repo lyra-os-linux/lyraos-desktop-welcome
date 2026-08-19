@@ -20,6 +20,8 @@
         <span class="progress-dot active" aria-hidden="true"></span>
         <span class="progress-dot" aria-hidden="true"></span>
         <span class="progress-dot" aria-hidden="true"></span>
+        <span class="progress-dot" aria-hidden="true"></span>
+        <span class="progress-dot" aria-hidden="true"></span>
         <span id="step-label" class="step-label" aria-live="polite"></span>
       </div>
 
@@ -34,6 +36,60 @@
           </div>
         </div>
         <div class="visual constellation" aria-hidden="true"><span class="star a"></span><span class="star b"></span><span class="star c"></span><svg viewBox="0 0 360 300"><path d="M58 220 118 82 202 132 292 60 265 238 202 132 58 220" /></svg><div class="orb">✦</div></div>
+      </section>
+
+      <section class="page" data-page="theme" aria-labelledby="theme-title" hidden>
+        <div class="copy">
+          <p class="eyebrow" data-i18n="themeEyebrow">SET THE MOOD</p>
+          <h1 id="theme-title" tabindex="-1" data-i18n="themeTitle">Light or dark?</h1>
+          <p class="lead" data-i18n="themeLead">Lyra ships both. Pick the one you prefer — the wallpaper and apps follow along, and you can change it any time.</p>
+          <div id="theme-choice" class="themes" role="radiogroup" data-i18n-aria="themeGroupLabel">
+            <button class="theme-card" type="button" role="radio" aria-checked="false" data-theme="light">
+              <span class="theme-thumb light" aria-hidden="true"><i class="thumb-bar"></i><i class="thumb-line a"></i><i class="thumb-line b"></i></span>
+              <h2 data-i18n="themeLightTitle">Light</h2>
+            </button>
+            <button class="theme-card" type="button" role="radio" aria-checked="true" data-theme="dark">
+              <span class="theme-thumb dark" aria-hidden="true"><i class="thumb-bar"></i><i class="thumb-line a"></i><i class="thumb-line b"></i></span>
+              <h2 data-i18n="themeDarkTitle">Dark</h2>
+            </button>
+          </div>
+          <p id="theme-status" class="launch-status" role="status" aria-live="polite"></p>
+        </div>
+        <div class="visual theme-visual" aria-hidden="true">
+          <div id="theme-preview" class="scheme-preview dark">
+            <span class="scheme-bar"><i></i><i></i><i></i></span>
+            <span class="scheme-body"><i></i><i></i><i></i><b>✦</b></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" data-page="profile" aria-labelledby="profile-title" hidden>
+        <div class="copy">
+          <p class="eyebrow" data-i18n="profileEyebrow">MAKE IT YOURS</p>
+          <h1 id="profile-title" tabindex="-1" data-i18n="profileTitle">Choose your desktop</h1>
+          <p class="lead" data-i18n="profileLead">Lyra ships two desktop profiles. Pick one now — Vega can switch it again whenever you like.</p>
+          <div id="profile-choice" class="profiles" role="radiogroup" data-i18n-aria="profileGroupLabel">
+            <button class="profile-card" type="button" role="radio" aria-checked="true" data-profile="lyra">
+              <span class="profile-thumb lyra" aria-hidden="true"><i class="thumb-panel"></i><i class="thumb-dock"></i></span>
+              <h2 data-i18n="profileLyraTitle">Lyra</h2>
+              <p data-i18n="profileLyraText">GNOME plus the Lyra dock and menus.</p>
+            </button>
+            <button class="profile-card" type="button" role="radio" aria-checked="false" data-profile="vanilla">
+              <span class="profile-thumb vanilla" aria-hidden="true"><i class="thumb-panel"></i><i class="thumb-dash"></i></span>
+              <h2 data-i18n="profileVanillaTitle">GNOME Vanilla</h2>
+              <p data-i18n="profileVanillaText">The standard GNOME experience, unchanged.</p>
+            </button>
+          </div>
+          <p id="profile-status" class="launch-status" role="status" aria-live="polite"></p>
+        </div>
+        <div class="visual profile-visual" aria-hidden="true">
+          <div id="profile-preview" class="desktop-preview lyra">
+            <span class="preview-panel"><i></i><i></i><i></i></span>
+            <span class="preview-window"></span>
+            <span class="preview-dock"><i></i><i></i><i></i><i></i></span>
+            <span class="preview-dash"><i></i><i></i><i></i></span>
+          </div>
+        </div>
       </section>
 
       <section class="page" data-page="network" aria-labelledby="network-title" hidden>

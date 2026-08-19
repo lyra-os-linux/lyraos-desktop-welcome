@@ -1,1 +1,227 @@
-:root{font-family:Inter,"DM Sans",system-ui,sans-serif;color:#edf3fa;background:#091421;font-synthesis:none;--gold:#e3bd57;--muted:#9db0c4;--panel:#102238;--line:#29435e;--green:#70c08c;--red:#e38a83}*{box-sizing:border-box}html,body{height:100%;margin:0;overflow:hidden}body{min-width:680px;background:radial-gradient(circle at 78% 25%,#263050 0,transparent 36%),linear-gradient(125deg,#24132d 0%,#101b30 55%,#07121f 100%)}button{font:inherit}.shell{display:flex;flex-direction:column;height:100dvh;max-width:1280px;margin:auto;padding:0 58px}.topbar{height:86px;flex:0 0 86px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff16}.brand{display:flex;align-items:center;gap:14px;font-size:15px;font-weight:700;letter-spacing:.18em}.brand b,.eyebrow,h1 em{color:var(--gold)}.brand-mark{display:grid;place-items:center;width:38px;height:38px;border:1px solid #55708c;border-radius:50%;background:linear-gradient(145deg,#314a68,#30203f);box-shadow:0 10px 28px #0007}.edition,.step-label{color:var(--muted);font-size:10px;font-weight:600;letter-spacing:.16em}.progress{display:flex;align-items:center;gap:9px;height:50px}.progress-dot{width:28px;height:3px;border-radius:3px;background:#42556b}.progress-dot.active{background:var(--gold)}.step-label{margin-left:8px}.page{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:54px;flex:1;min-height:0;animation:arrive .28s ease}.page[hidden]{display:none}.copy{max-width:680px}.eyebrow{margin:0;font-size:10px;font-weight:700;letter-spacing:.27em}h1{margin:14px 0 20px;font-size:clamp(44px,6vw,72px);line-height:1;letter-spacing:-.05em}h1 em{font-style:normal}.lead{max-width:650px;margin:0;color:#b3c2d1;font-size:16px;line-height:1.65}.features{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}.features article,.vega-card,.status-card{display:flex;gap:14px;padding:17px;border:1px solid #ffffff18;border-radius:12px;background:#102238aa}.features article>span,.status-icon,.vega-mark{display:grid;place-items:center;flex:0 0 36px;height:36px;border:1px solid #476580;border-radius:9px;color:var(--gold);font-size:20px}.features h2,.vega-card h2{margin:1px 0 6px;font-size:13px}.features p,.vega-card p,.status-card p{margin:0;color:var(--muted);font-size:11px;line-height:1.5}.visual{position:relative;justify-self:center;width:min(31vw,310px,42vh);aspect-ratio:1}.constellation{border:1px solid #58718d44;border-radius:50%;background:radial-gradient(circle,#233a56 0%,#101d32 58%,#091522 72%);box-shadow:0 30px 80px #0009,inset 0 0 50px #030913}.constellation svg{position:absolute;inset:16%;width:68%;height:68%;fill:none;stroke:#e3bd576d}.orb{position:absolute;inset:34%;display:grid;place-items:center;border:1px solid #e3bd5788;border-radius:50%;color:#f7df9d;font-size:48px;box-shadow:0 0 45px #e3bd5725}.star{position:absolute;z-index:2;width:7px;height:7px;border-radius:50%;background:#f8dfa0;box-shadow:0 0 15px #f8dfa0}.star.a{left:15%;top:72%}.star.b{left:31%;top:23%}.star.c{right:16%;top:18%}.status-card{max-width:590px;margin-top:28px;align-items:center}.status-card.connected{border-color:#70c08c66}.status-card.connected .status-icon{color:var(--green);border-color:#70c08c88}.status-card.offline,.status-card.unknown{border-color:#e38a8355}.status-card.offline .status-icon,.status-card.unknown .status-icon{color:var(--red);border-color:#e38a8377}.status-card strong{display:block;margin-bottom:5px;font-size:13px}.actions-inline{display:flex;gap:12px;margin-top:18px}.network-visual{display:grid;place-items:center}.wifi-ring{position:absolute;border:2px solid var(--gold);border-bottom-color:transparent;border-left-color:transparent;border-radius:50%;transform:rotate(-45deg)}.ring-1{inset:8%;opacity:.25}.ring-2{inset:25%;opacity:.5}.ring-3{inset:42%;opacity:.85}.wifi-core{color:var(--gold);font-size:25px;transform:translateY(40px);text-shadow:0 0 20px var(--gold)}.vega-card{max-width:590px;margin-top:28px;align-items:center}.launch{margin-top:18px}.launch-status{height:18px;margin:9px 0 0;color:var(--muted);font-size:11px}.vega-visual{display:grid;place-items:center}.vega-window{width:100%;height:72%;overflow:hidden;border:1px solid #66809a;border-radius:15px;background:#102238;box-shadow:0 35px 70px #0009;transform:rotate(2deg)}.window-bar{display:flex;gap:6px;padding:12px;background:#1d344c}.window-bar i{width:7px;height:7px;border-radius:50%;background:#6d8297}.window-body{display:grid;gap:13px;padding:28px}.window-body span{height:34px;border-radius:7px;background:linear-gradient(90deg,#29435e,#1b3047)}.window-body b{position:absolute;align-self:center;justify-self:center;color:var(--gold);font-size:46px;text-shadow:0 0 35px #e3bd5780}footer{height:82px;flex:0 0 82px;display:flex;align-items:center;border-top:1px solid #ffffff16}.footer-spacer{flex:1}button{display:flex;align-items:center;justify-content:center;gap:18px;min-height:44px;border-radius:8px;padding:12px 18px;font-size:12px;font-weight:700;cursor:pointer}.primary{border:0;background:var(--gold);color:#172033;box-shadow:0 8px 26px #0005}.primary:hover{background:#f0d078}.secondary{border:1px solid #536b83;background:#13263c;color:#edf3fa}.secondary:hover{background:#1b344e}button:focus-visible{outline:3px solid #fff8;outline-offset:3px}@keyframes arrive{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}@media(max-width:820px){.shell{padding:0 34px}.page{grid-template-columns:1fr}.visual{display:none}.features{grid-template-columns:1fr 1fr}}@media(max-height:650px){.topbar{height:64px;flex-basis:64px}.progress{height:38px}h1{font-size:44px;margin:9px 0 13px}.lead{font-size:14px}.features,.status-card,.vega-card{margin-top:15px}footer{height:62px;flex-basis:62px}}
+/* Lyra Welcome. The palette lives entirely in tokens so the window can follow
+   the appearance the user picks on the theme page: app.js stamps
+   data-scheme="light|dark" on <html>, and the media query below covers the
+   first paint, before the backend has answered. Dark keeps exactly the values
+   the application shipped with; light is built from the official Lyra light
+   palette (base #f4f5f7/#fcfcfd, lavender accent #ced3f3). */
+:root {
+  font-family: Inter, "DM Sans", system-ui, sans-serif;
+  font-synthesis: none;
+
+  --fg: #edf3fa;
+  --fg-soft: #b3c2d1;
+  --muted: #9db0c4;
+  --bg: #091421;
+  --bg-image: radial-gradient(circle at 78% 25%, #263050 0, transparent 36%),
+    linear-gradient(125deg, #24132d 0%, #101b30 55%, #07121f 100%);
+
+  --gold: #e3bd57;
+  --accent: #e3bd57;
+  --accent-strong: #f0d078;
+  --accent-ink: #172033;
+
+  --panel: #102238;
+  --panel-veil: #102238aa;
+  --hairline: #ffffff16;
+  --card-line: #ffffff18;
+  --icon-line: #476580;
+  --dot: #42556b;
+  --mark-line: #55708c;
+  --mark-fill: linear-gradient(145deg, #314a68, #30203f);
+  --shadow: #0009;
+  --shadow-soft: #0005;
+
+  --win-line: #66809a;
+  --win-bar: #1d344c;
+  --win-dot: #6d8297;
+  --win-fill: linear-gradient(90deg, #29435e, #1b3047);
+
+  --orb-line: #58718d44;
+  --orb-fill: radial-gradient(circle, #233a56 0%, #101d32 58%, #091522 72%);
+  --star: #f8dfa0;
+
+  --secondary-bg: #13263c;
+  --secondary-bg-hover: #1b344e;
+  --secondary-line: #536b83;
+  --focus: #ffffff88;
+
+  --green: #70c08c;
+  --red: #e38a83;
+  --line: #29435e;
+
+  color-scheme: dark;
+  color: var(--fg);
+  background: var(--bg);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-scheme="dark"]) {
+    color-scheme: light;
+    --fg: #16191d;
+    --fg-soft: #3d4753;
+    --muted: #5b6672;
+    --bg: #f4f5f7;
+    --bg-image: radial-gradient(circle at 78% 25%, #e4e7f6 0, transparent 36%),
+      linear-gradient(125deg, #fcfcfd 0%, #f4f5f7 55%, #eceef4 100%);
+    --accent: #8a6410;
+    --accent-strong: #a2761a;
+    --panel: #ffffff;
+    --panel-veil: #ffffffcc;
+    --hairline: #16191d18;
+    --card-line: #16191d1f;
+    --icon-line: #c3ccd8;
+    --dot: #c9d0da;
+    --mark-line: #ced3f3;
+    --mark-fill: linear-gradient(145deg, #e8ebfa, #dfe3f5);
+    --shadow: #16191d24;
+    --shadow-soft: #16191d1a;
+    --win-line: #ced3f3;
+    --win-bar: #e9ebf4;
+    --win-dot: #a8b2c4;
+    --win-fill: linear-gradient(90deg, #dfe3f5, #eceef4);
+    --orb-line: #ced3f3;
+    --orb-fill: radial-gradient(circle, #e8ebfa 0%, #f4f5f7 58%, #fcfcfd 72%);
+    --star: #c9a53f;
+    --secondary-bg: #ffffff;
+    --secondary-bg-hover: #eff1f6;
+    --secondary-line: #c3ccd8;
+    --focus: #16191d88;
+    --line: #ced3f3;
+  }
+}
+
+:root[data-scheme="light"] {
+  color-scheme: light;
+  --fg: #16191d;
+  --fg-soft: #3d4753;
+  --muted: #5b6672;
+  --bg: #f4f5f7;
+  --bg-image: radial-gradient(circle at 78% 25%, #e4e7f6 0, transparent 36%),
+    linear-gradient(125deg, #fcfcfd 0%, #f4f5f7 55%, #eceef4 100%);
+  --accent: #8a6410;
+  --accent-strong: #a2761a;
+  --panel: #ffffff;
+  --panel-veil: #ffffffcc;
+  --hairline: #16191d18;
+  --card-line: #16191d1f;
+  --icon-line: #c3ccd8;
+  --dot: #c9d0da;
+  --mark-line: #ced3f3;
+  --mark-fill: linear-gradient(145deg, #e8ebfa, #dfe3f5);
+  --shadow: #16191d24;
+  --shadow-soft: #16191d1a;
+  --win-line: #ced3f3;
+  --win-bar: #e9ebf4;
+  --win-dot: #a8b2c4;
+  --win-fill: linear-gradient(90deg, #dfe3f5, #eceef4);
+  --orb-line: #ced3f3;
+  --orb-fill: radial-gradient(circle, #e8ebfa 0%, #f4f5f7 58%, #fcfcfd 72%);
+  --star: #c9a53f;
+  --secondary-bg: #ffffff;
+  --secondary-bg-hover: #eff1f6;
+  --secondary-line: #c3ccd8;
+  --focus: #16191d88;
+  --line: #ced3f3;
+}
+
+* { box-sizing: border-box }
+html, body { height: 100%; margin: 0; overflow: hidden }
+body {
+  min-width: 680px;
+  color: var(--fg);
+  background: var(--bg-image);
+  transition: background 200ms ease, color 200ms ease;
+}
+button { font: inherit }
+
+.shell { display: flex; flex-direction: column; height: 100dvh; max-width: 1280px; margin: auto; padding: 0 58px }
+.topbar { height: 86px; flex: 0 0 86px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--hairline) }
+.brand { display: flex; align-items: center; gap: 14px; font-size: 15px; font-weight: 700; letter-spacing: .18em }
+.brand b, .eyebrow, h1 em { color: var(--accent) }
+.brand-mark { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid var(--mark-line); border-radius: 50%; background: var(--mark-fill); box-shadow: 0 10px 28px var(--shadow-soft) }
+.edition, .step-label { color: var(--muted); font-size: 10px; font-weight: 600; letter-spacing: .16em }
+.progress { display: flex; align-items: center; gap: 9px; height: 50px }
+.progress-dot { width: 28px; height: 3px; border-radius: 3px; background: var(--dot) }
+.progress-dot.active { background: var(--accent) }
+.step-label { margin-left: 8px }
+
+.page { display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 54px; flex: 1; min-height: 0; animation: arrive .28s ease }
+.page[hidden] { display: none }
+.copy { max-width: 680px }
+.eyebrow { margin: 0; font-size: 10px; font-weight: 700; letter-spacing: .27em }
+h1 { margin: 14px 0 20px; font-size: clamp(44px, 6vw, 72px); line-height: 1; letter-spacing: -.05em }
+h1 em { font-style: normal }
+.lead { max-width: 650px; margin: 0; color: var(--fg-soft); font-size: 16px; line-height: 1.65 }
+
+.features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 28px }
+.features article, .vega-card, .status-card { display: flex; gap: 14px; padding: 17px; border: 1px solid var(--card-line); border-radius: 12px; background: var(--panel-veil) }
+.features article > span, .status-icon, .vega-mark { display: grid; place-items: center; flex: 0 0 36px; height: 36px; border: 1px solid var(--icon-line); border-radius: 9px; color: var(--accent); font-size: 20px }
+.features h2, .vega-card h2 { margin: 1px 0 6px; font-size: 13px }
+.features p, .vega-card p, .status-card p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.5 }
+
+.visual { position: relative; justify-self: center; width: min(31vw, 310px, 42vh); aspect-ratio: 1 }
+.constellation { border: 1px solid var(--orb-line); border-radius: 50%; background: var(--orb-fill); box-shadow: 0 30px 80px var(--shadow), inset 0 0 50px var(--shadow-soft) }
+.constellation svg { position: absolute; inset: 16%; width: 68%; height: 68%; fill: none; stroke: color-mix(in srgb, var(--gold) 43%, transparent) }
+.orb { position: absolute; inset: 34%; display: grid; place-items: center; border: 1px solid color-mix(in srgb, var(--gold) 53%, transparent); border-radius: 50%; color: var(--accent); font-size: 48px; box-shadow: 0 0 45px color-mix(in srgb, var(--gold) 15%, transparent) }
+.star { position: absolute; z-index: 2; width: 7px; height: 7px; border-radius: 50%; background: var(--star); box-shadow: 0 0 15px var(--star) }
+.star.a { left: 15%; top: 72% }
+.star.b { left: 31%; top: 23% }
+.star.c { right: 16%; top: 18% }
+
+.status-card { max-width: 590px; margin-top: 28px; align-items: center }
+.status-card.connected { border-color: color-mix(in srgb, var(--green) 40%, transparent) }
+.status-card.connected .status-icon { color: var(--green); border-color: color-mix(in srgb, var(--green) 53%, transparent) }
+.status-card.offline, .status-card.unknown { border-color: color-mix(in srgb, var(--red) 33%, transparent) }
+.status-card.offline .status-icon, .status-card.unknown .status-icon { color: var(--red); border-color: color-mix(in srgb, var(--red) 47%, transparent) }
+.status-card strong { display: block; margin-bottom: 5px; font-size: 13px }
+.actions-inline { display: flex; gap: 12px; margin-top: 18px }
+
+.network-visual { display: grid; place-items: center }
+.wifi-ring { position: absolute; border: 2px solid var(--accent); border-bottom-color: transparent; border-left-color: transparent; border-radius: 50%; transform: rotate(-45deg) }
+.ring-1 { inset: 8%; opacity: .25 }
+.ring-2 { inset: 25%; opacity: .5 }
+.ring-3 { inset: 42%; opacity: .85 }
+.wifi-core { color: var(--accent); font-size: 25px; transform: translateY(40px); text-shadow: 0 0 20px var(--gold) }
+
+.vega-card { max-width: 590px; margin-top: 28px; align-items: center }
+.launch { margin-top: 18px }
+.launch-status { height: 18px; margin: 9px 0 0; color: var(--muted); font-size: 11px }
+.vega-visual { display: grid; place-items: center }
+.vega-window { width: 100%; height: 72%; overflow: hidden; border: 1px solid var(--win-line); border-radius: 15px; background: var(--panel); box-shadow: 0 35px 70px var(--shadow); transform: rotate(2deg) }
+.window-bar { display: flex; gap: 6px; padding: 12px; background: var(--win-bar) }
+.window-bar i { width: 7px; height: 7px; border-radius: 50%; background: var(--win-dot) }
+.window-body { display: grid; gap: 13px; padding: 28px }
+.window-body span { height: 34px; border-radius: 7px; background: var(--win-fill) }
+.window-body b { position: absolute; align-self: center; justify-self: center; color: var(--accent); font-size: 46px; text-shadow: 0 0 35px color-mix(in srgb, var(--gold) 50%, transparent) }
+
+footer { height: 82px; flex: 0 0 82px; display: flex; align-items: center; border-top: 1px solid var(--hairline) }
+.footer-spacer { flex: 1 }
+button { display: flex; align-items: center; justify-content: center; gap: 18px; min-height: 44px; border-radius: 8px; padding: 12px 18px; font-size: 12px; font-weight: 700; cursor: pointer }
+/* The primary button keeps the brand gold in both schemes: dark ink on gold
+   clears contrast either way, and it is the one element that should not move. */
+.primary { border: 0; background: var(--gold); color: var(--accent-ink); box-shadow: 0 8px 26px var(--shadow-soft) }
+.primary:hover { background: #f0d078 }
+.secondary { border: 1px solid var(--secondary-line); background: var(--secondary-bg); color: var(--fg) }
+.secondary:hover { background: var(--secondary-bg-hover) }
+button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px }
+
+@keyframes arrive {
+  from { opacity: 0; transform: translateX(10px) }
+  to { opacity: 1; transform: none }
+}
+
+@media (max-width: 820px) {
+  .shell { padding: 0 34px }
+  .page { grid-template-columns: 1fr }
+  .visual { display: none }
+  .features { grid-template-columns: 1fr 1fr }
+}
+
+@media (max-height: 650px) {
+  .topbar { height: 64px; flex-basis: 64px }
+  .progress { height: 38px }
+  h1 { font-size: 44px; margin: 9px 0 13px }
+  .lead { font-size: 14px }
+  .features, .status-card, .vega-card { margin-top: 15px }
+  footer { height: 62px; flex-basis: 62px }
+}

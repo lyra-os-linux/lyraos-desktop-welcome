@@ -36,7 +36,7 @@ class WelcomeContractTests(unittest.TestCase):
         self.assertIn("Math.max(0, Math.min(current, pages.length - 1))", app)
         self.assertIn("[hidden]", styles)
         self.assertIn("display: none !important", styles)
-        self.assertEqual(markup.count('tabindex="-1"'), 3)
+        self.assertEqual(markup.count('tabindex="-1"'), 5)
         self.assertIn('querySelector("h1").focus({ preventScroll: true })', app)
 
     def test_native_integrations_use_fixed_system_commands(self) -> None:
@@ -49,6 +49,71 @@ class WelcomeContractTests(unittest.TestCase):
         self.assertIn('launch("/usr/bin/vega-gtk", &[])', rust)
         for package in ("NetworkManager", "gnome-control-center", "vega-gtk"):
             self.assertRegex(spec, rf"(?m)^Requires:\s+{re.escape(package)}$")
+
+    def test_setup_pages_are_ordered_theme_profile_network(self) -> None:
+        markup = (WELCOME / "ui/index.html").read_text(encoding="utf-8")
+        theme = markup.index('data-page="theme"')
+        profile = markup.index('data-page="profile"')
+        network = markup.index('data-page="network"')
+        self.assertLess(theme, profile)
+        self.assertLess(profile, network)
+        self.assertEqual(markup.count('class="progress-dot'), markup.count("<section class="))
+        for value in ("lyra", "vanilla"):
+            self.assertIn(f'data-profile="{value}"', markup)
+
+    def test_desktop_profile_switches_only_the_sheliak_extension(self) -> None:
+        rust = (WELCOME / "src-tauri/src/main.rs").read_text(encoding="utf-8")
+        app = (WELCOME / "ui/app.js").read_text(encoding="utf-8")
+        spec = (WELCOME / "packaging/lyra-welcome.spec").read_text(encoding="utf-8")
+        # Vega toggles this same UUID in this same key; the two must agree.
+        self.assertIn('const SHELIAK_UUID: &str = "sheliak@lyraos.org"', rust)
+        self.assertIn('const SHELL_SCHEMA: &str = "org.gnome.shell"', rust)
+        self.assertIn('const EXTENSIONS_KEY: &str = "enabled-extensions"', rust)
+        self.assertIn('Command::new("/usr/bin/gsettings")', rust)
+        self.assertIn('core.invoke("desktop_profile")', app)
+        self.assertIn('core.invoke("set_desktop_profile", { profile })', app)
+        self.assertRegex(spec, r"(?m)^Requires:\s+glib2-tools$")
+
+    def test_appearance_uses_the_gnome_color_scheme_key(self) -> None:
+        rust = (WELCOME / "src-tauri/src/main.rs").read_text(encoding="utf-8")
+        app = (WELCOME / "ui/app.js").read_text(encoding="utf-8")
+        markup = (WELCOME / "ui/index.html").read_text(encoding="utf-8")
+        # Vega's appearance module writes this same schema and key.
+        self.assertIn('const INTERFACE_SCHEMA: &str = "org.gnome.desktop.interface"', rust)
+        self.assertIn('const COLOR_SCHEME_KEY: &str = "color-scheme"', rust)
+        for value in ("prefer-light", "prefer-dark"):
+            self.assertIn(f'"{value}"', rust)
+        self.assertIn('core.invoke("color_scheme")', app)
+        self.assertIn('core.invoke("set_color_scheme", { theme })', app)
+        for value in ("light", "dark"):
+            self.assertIn(f'data-theme="{value}"', markup)
+
+    def test_the_window_itself_follows_the_chosen_scheme(self) -> None:
+        app = (WELCOME / "ui/app.js").read_text(encoding="utf-8")
+        styles = (WELCOME / "ui/styles.css").read_text(encoding="utf-8")
+        self.assertIn("document.documentElement.dataset.scheme = selected", app)
+        self.assertIn(':root[data-scheme="light"]', styles)
+        self.assertIn("@media (prefers-color-scheme: light)", styles)
+        # The palette must be tokenised, or half the window would stay dark.
+        self.assertNotIn("#edf3fa;", styles.split(":root[data-scheme")[1])
+
+    def test_profile_strings_exist_in_every_locale(self) -> None:
+        catalog = (WELCOME / "ui/i18n.js").read_text(encoding="utf-8")
+        for key in (
+            "themeTitle",
+            "themeLightTitle",
+            "themeDarkTitle",
+            "themeApplied",
+            "themeFailed",
+            "themeUnavailable",
+            "profileTitle",
+            "profileLyraTitle",
+            "profileVanillaTitle",
+            "profileApplied",
+            "profileFailed",
+            "profileUnavailable",
+        ):
+            self.assertEqual(catalog.count(f"{key}:"), 3, key)
 
     def test_first_login_launcher_is_fail_closed_and_per_user(self) -> None:
         launcher = WELCOME / "packaging/lyra-welcome-first-login"
