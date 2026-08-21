@@ -7,6 +7,8 @@ Wed Aug 19 00:00:00 UTC 2026 - Lyra OS Release <rodrigo@w3ti.com.br>
   sheliak@lyraos.org in org.gnome.shell enabled-extensions.
 - Offer the Lyra profile only when the Sheliak extension is installed.
 - Declare the glib2-tools dependency for gsettings.
+- Normalize Cargo's vendored-source path before archiving so repeated source
+  generation produces identical artifacts outside the temporary build path.
 
 -------------------------------------------------------------------
 Tue Aug 18 00:00:00 UTC 2026 - Lyra OS Release <rodrigo@w3ti.com.br>
