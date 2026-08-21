@@ -4,8 +4,8 @@
 # Mirrors upgrade/packaging/make-obs-sources.sh, with two differences that
 # follow from how each package is laid out: welcome/ carries its own LICENSE
 # and README, so nothing is pulled from the repository root, and its crate
-# lives in src-tauri/, so the vendor layer is rooted there - the spec's %prep
-# rewrites src-tauri/.cargo/config.toml, not one at the archive root.
+# lives in src-tauri/, so the vendor layer and its relative Cargo configuration
+# are rooted there rather than at the archive root.
 
 set -euo pipefail
 
@@ -14,7 +14,7 @@ WELCOME_DIR="$(dirname "$SCRIPT_DIR")"
 REPO_ROOT="$(dirname "$WELCOME_DIR")"
 OUTPUT_DIR="${1:-$SCRIPT_DIR/output}"
 
-for command in cargo git sha256sum tar zstd; do
+for command in cargo git sed sha256sum tar zstd; do
   if ! command -v "$command" >/dev/null 2>&1; then
     echo "required command not found: $command" >&2
     exit 1
@@ -78,6 +78,10 @@ make_archive "$TEMPORARY/source" "$PREFIX" "$SOURCE_ARCHIVE"
   cargo vendor --locked "$TEMPORARY/vendor-layer/src-tauri/vendor" \
     >"$TEMPORARY/vendor-layer/src-tauri/.cargo/config.toml"
 )
+# cargo vendor prints the absolute destination it received. Keep the archive
+# independent of the random temporary directory used for this run.
+sed -i 's|^directory = .*|directory = "vendor"|' \
+  "$TEMPORARY/vendor-layer/src-tauri/.cargo/config.toml"
 VENDOR_ARCHIVE="$OUTPUT_DIR/vendor.tar.zst"
 make_archive "$TEMPORARY/vendor-layer" src-tauri "$VENDOR_ARCHIVE"
 

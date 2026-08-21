@@ -11,6 +11,16 @@ WELCOME = ROOT / "welcome"
 
 
 class WelcomeContractTests(unittest.TestCase):
+    def test_obs_vendor_archive_uses_a_relative_cargo_path(self) -> None:
+        script = (WELCOME / "packaging/make-obs-sources.sh").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("cargo vendor --locked", script)
+        self.assertIn(
+            "sed -i 's|^directory = .*|directory = \"vendor\"|'",
+            script,
+        )
+
     def test_three_locales_and_english_fallback_are_embedded(self) -> None:
         catalog = (WELCOME / "ui/i18n.js").read_text(encoding="utf-8")
         for locale in ("en-US", "pt-BR", "es-ES"):
