@@ -1,17 +1,15 @@
 #!/usr/bin/env bash
 # Build the reproducible sources consumed by the lyra-welcome OBS package.
 #
-# Mirrors upgrade/packaging/make-obs-sources.sh, with two differences that
-# follow from how each package is laid out: welcome/ carries its own LICENSE
-# and README, so nothing is pulled from the repository root, and its crate
-# lives in src-tauri/, so the vendor layer and its relative Cargo configuration
-# are rooted there rather than at the archive root.
+# Mirrors upgrade/packaging/make-obs-sources.sh, with one difference that
+# follows from how this package is laid out: its crate lives in src-tauri/,
+# so the vendor layer and its relative Cargo configuration are rooted there
+# rather than at the archive root.
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
-WELCOME_DIR="$(dirname "$SCRIPT_DIR")"
-REPO_ROOT="$(dirname "$WELCOME_DIR")"
+REPO_ROOT="$(dirname "$SCRIPT_DIR")"
 OUTPUT_DIR="${1:-$SCRIPT_DIR/output}"
 
 for command in cargo git sed sha256sum tar zstd; do
@@ -26,7 +24,7 @@ if [ -n "$(git -C "$REPO_ROOT" status --porcelain --untracked-files=normal)" ]; 
   exit 1
 fi
 
-VERSION="$(awk -F '"' '/^version = / { print $2; exit }' "$WELCOME_DIR/src-tauri/Cargo.toml")"
+VERSION="$(awk -F '"' '/^version = / { print $2; exit }' "$REPO_ROOT/src-tauri/Cargo.toml")"
 if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
   echo "could not read the lyra-welcome semantic version" >&2
   exit 1
@@ -46,7 +44,7 @@ cleanup() {
 trap cleanup EXIT
 
 mkdir -p "$OUTPUT_DIR" "$TEMPORARY/source/$PREFIX" "$TEMPORARY/vendor-layer/src-tauri/.cargo"
-git -C "$REPO_ROOT" archive --format=tar "$COMMIT:welcome" |
+git -C "$REPO_ROOT" archive --format=tar "$COMMIT" |
   tar -xf - -C "$TEMPORARY/source/$PREFIX"
 
 make_archive() {

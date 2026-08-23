@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-WELCOME = ROOT / "welcome"
+WELCOME = ROOT
 
 
 class WelcomeContractTests(unittest.TestCase):
