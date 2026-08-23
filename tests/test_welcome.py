@@ -76,7 +76,7 @@ class WelcomeContractTests(unittest.TestCase):
         app = (WELCOME / "ui/app.js").read_text(encoding="utf-8")
         spec = (WELCOME / "packaging/lyra-welcome.spec").read_text(encoding="utf-8")
         # Vega toggles this same UUID in this same key; the two must agree.
-        self.assertIn('const SHELIAK_UUID: &str = "sheliak@lyraos.org"', rust)
+        self.assertIn('const SHELIAK_UUID: &str = "sheliak@lyraos.com.br"', rust)
         self.assertIn('const SHELL_SCHEMA: &str = "org.gnome.shell"', rust)
         self.assertIn('const EXTENSIONS_KEY: &str = "enabled-extensions"', rust)
         self.assertIn('Command::new("/usr/bin/gsettings")', rust)

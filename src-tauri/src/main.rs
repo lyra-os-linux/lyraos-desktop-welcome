@@ -6,10 +6,10 @@ use std::process::{Command, Stdio};
 /// The GNOME Shell extension that carries Lyra's dock and panel menus. Vega's
 /// "Perfil da área de trabalho" (vega-gtk/src/ui/screen.rs) switches profiles by
 /// toggling exactly this UUID in enabled-extensions, leaving every other
-/// extension - notably updates-indicator@lyraos.org, enabled by the image
+/// extension - notably updates-indicator@lyraos.com.br, enabled by the image
 /// default - untouched. The welcome screen must behave identically, or the two
 /// places would disagree about what profile the desktop is on.
-const SHELIAK_UUID: &str = "sheliak@lyraos.org";
+const SHELIAK_UUID: &str = "sheliak@lyraos.com.br";
 const SHELL_SCHEMA: &str = "org.gnome.shell";
 const EXTENSIONS_KEY: &str = "enabled-extensions";
 
@@ -216,10 +216,10 @@ mod tests {
     #[test]
     fn parses_the_gsettings_array_of_uuids() {
         assert_eq!(
-            parse_extension_list("['sheliak@lyraos.org', 'updates-indicator@lyraos.org']"),
+            parse_extension_list("['sheliak@lyraos.com.br', 'updates-indicator@lyraos.com.br']"),
             vec![
-                "sheliak@lyraos.org".to_owned(),
-                "updates-indicator@lyraos.org".to_owned()
+                "sheliak@lyraos.com.br".to_owned(),
+                "updates-indicator@lyraos.com.br".to_owned()
             ]
         );
     }
@@ -242,9 +242,9 @@ mod tests {
     /// default also enables updates-indicator, and Vega leaves it alone.
     #[test]
     fn switching_profiles_only_touches_sheliak() {
-        let mut uuids = parse_extension_list("['sheliak@lyraos.org', 'updates-indicator@lyraos.org']");
+        let mut uuids = parse_extension_list("['sheliak@lyraos.com.br', 'updates-indicator@lyraos.com.br']");
         uuids.retain(|uuid| uuid != SHELIAK_UUID);
-        assert_eq!(uuids, vec!["updates-indicator@lyraos.org".to_owned()]);
+        assert_eq!(uuids, vec!["updates-indicator@lyraos.com.br".to_owned()]);
         uuids.push(SHELIAK_UUID.to_owned());
         assert_eq!(uuids.len(), 2);
     }
