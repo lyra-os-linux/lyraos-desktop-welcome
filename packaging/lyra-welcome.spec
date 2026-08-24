@@ -4,7 +4,7 @@ Release:        0
 %global debug_package %{nil}
 Summary:        First-login welcome application for Lyra OS
 License:        GPL-3.0-only
-URL:            https://github.com/britors/Lyra
+URL:            https://github.com/lyra-os-linux/lyraos-desktop-welcome
 Source0:        %{name}-%{version}.tar.zst
 Source1:        vendor.tar.zst
 
