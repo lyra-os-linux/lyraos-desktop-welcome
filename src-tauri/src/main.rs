@@ -135,7 +135,11 @@ fn desktop_profile() -> String {
         return "unavailable".to_owned();
     }
     match gsettings(&["get", SHELL_SCHEMA, EXTENSIONS_KEY]) {
-        Some(value) if parse_extension_list(&value).iter().any(|uuid| uuid == SHELIAK_UUID) => {
+        Some(value)
+            if parse_extension_list(&value)
+                .iter()
+                .any(|uuid| uuid == SHELIAK_UUID) =>
+        {
             "lyra".to_owned()
         }
         Some(_) => "vanilla".to_owned(),
@@ -162,9 +166,14 @@ fn set_desktop_profile(profile: String) -> Result<(), String> {
         uuids.push(SHELIAK_UUID.to_owned());
     }
 
-    gsettings(&["set", SHELL_SCHEMA, EXTENSIONS_KEY, &format_extension_list(&uuids)])
-        .map(|_| ())
-        .ok_or_else(|| "the desktop profile could not be changed".to_owned())
+    gsettings(&[
+        "set",
+        SHELL_SCHEMA,
+        EXTENSIONS_KEY,
+        &format_extension_list(&uuids),
+    ])
+    .map(|_| ())
+    .ok_or_else(|| "the desktop profile could not be changed".to_owned())
 }
 
 fn launch(program: &str, arguments: &[&str]) -> Result<(), String> {
@@ -194,6 +203,16 @@ fn close_welcome(window: tauri::WebviewWindow) -> Result<(), String> {
 }
 
 fn main() {
+    // WebKitGTK's accelerated compositing path can abort while probing the
+    // virtio/software EGL stack used by the installer VM. Welcome is a small,
+    // static setup view, so software compositing is the reliable choice here.
+    //
+    // SAFETY: this is the first operation in main, before Tauri or WebKit can
+    // create worker threads or read the process environment.
+    unsafe {
+        std::env::set_var("WEBKIT_DISABLE_COMPOSITING_MODE", "1");
+    }
+
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             network_status,
@@ -242,7 +261,8 @@ mod tests {
     /// default also enables updates-indicator, and Vega leaves it alone.
     #[test]
     fn switching_profiles_only_touches_sheliak() {
-        let mut uuids = parse_extension_list("['sheliak@lyraos.com.br', 'updates-indicator@lyraos.com.br']");
+        let mut uuids =
+            parse_extension_list("['sheliak@lyraos.com.br', 'updates-indicator@lyraos.com.br']");
         uuids.retain(|uuid| uuid != SHELIAK_UUID);
         assert_eq!(uuids, vec!["updates-indicator@lyraos.com.br".to_owned()]);
         uuids.push(SHELIAK_UUID.to_owned());

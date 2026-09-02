@@ -37,6 +37,15 @@ class WelcomeContractTests(unittest.TestCase):
         self.assertIn("fn close_welcome(window: tauri::WebviewWindow)", rust)
         self.assertIn("window.close()", rust)
 
+    def test_webkit_compositing_is_disabled_before_tauri_starts(self) -> None:
+        rust = (WELCOME / "src-tauri/src/main.rs").read_text(encoding="utf-8")
+        disable = rust.index(
+            'std::env::set_var("WEBKIT_DISABLE_COMPOSITING_MODE", "1")'
+        )
+        builder = rust.index("tauri::Builder::default()")
+        self.assertLess(disable, builder)
+        self.assertIn("before Tauri or WebKit can", rust)
+
     def test_page_navigation_is_bounded(self) -> None:
         app = (WELCOME / "ui/app.js").read_text(encoding="utf-8")
         markup = (WELCOME / "ui/index.html").read_text(encoding="utf-8")

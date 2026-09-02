@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Wed Sep 02 00:00:00 UTC 2026 - Lyra OS Release <rodrigo@lyraos.com.br>
+
+- Disable WebKit accelerated compositing for the Welcome window before Tauri
+  starts, avoiding renderer aborts on virtio and software EGL stacks.
+
+-------------------------------------------------------------------
 Wed Aug 19 00:00:00 UTC 2026 - Lyra OS Release <rodrigo@lyraos.com.br>
 
 - Add a desktop profile page before the Wi-Fi one, offering the Lyra and
