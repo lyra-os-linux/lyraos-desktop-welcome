@@ -23,3 +23,5 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python3 -m unittest discover -s tests -v
+      - name: Exercise picker failures and concurrent input in three locales
+        run: node tests/test-pickers.mjs
