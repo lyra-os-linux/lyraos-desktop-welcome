@@ -7,8 +7,6 @@
   const profileCards = [...document.querySelectorAll(".profile-card")];
   let current = 0;
   let messages;
-  let profileAvailable = true;
-  let themeAvailable = true;
 
   function supportedLocale(value) {
     const normalized = String(value || "").toLowerCase();
@@ -56,9 +54,10 @@
       card.setAttribute("aria-checked", String(active));
       card.classList.toggle("selected", active);
       // Only the selected card stays in the tab order, as a radiogroup should.
-      card.tabIndex = active ? 0 : -1;
+      card.tabIndex = active || (!selected && card === cards[0]) ? 0 : -1;
     });
-    preview.element.className = `${preview.base} ${selected}`;
+    preview.element.hidden = !selected;
+    preview.element.className = selected ? `${preview.base} ${selected}` : preview.base;
   }
 
   function selectedOf(cards, attribute, fallback) {
@@ -86,35 +85,8 @@
     // Repaint the welcome window itself, so the choice is shown rather than
     // only described. Without the attribute, styles.css falls back to
     // prefers-color-scheme, which is what an unavailable backend leaves us.
-    document.documentElement.dataset.scheme = selected;
-  }
-
-  async function chooseTheme(theme) {
-    if (!themeAvailable) return;
-    const status = document.querySelector("#theme-status");
-    markTheme(theme);
-    try {
-      await window.__TAURI__.core.invoke("set_color_scheme", { theme });
-      status.textContent = messages.themeApplied;
-    } catch (_) {
-      status.textContent = messages.themeFailed;
-    }
-  }
-
-  async function loadTheme() {
-    let value = "dark";
-    try {
-      value = await window.__TAURI__.core.invoke("color_scheme");
-    } catch (_) {
-      value = "unavailable";
-    }
-    if (value === "unavailable") {
-      themeAvailable = false;
-      themeCards.forEach((card) => { card.disabled = true; });
-      document.querySelector("#theme-status").textContent = messages.themeUnavailable;
-      return;
-    }
-    markTheme(value);
+    if (selected) document.documentElement.dataset.scheme = selected;
+    else delete document.documentElement.dataset.scheme;
   }
 
   function markProfile(selected) {
@@ -124,36 +96,71 @@
     });
   }
 
-  async function chooseProfile(profile) {
-    if (!profileAvailable && profile === "lyra") return;
-    const status = document.querySelector("#profile-status");
-    markProfile(profile);
-    try {
-      await window.__TAURI__.core.invoke("set_desktop_profile", { profile });
-      status.textContent = messages.profileApplied;
-    } catch (_) {
-      status.textContent = messages.profileFailed;
+  // A picker owns its entire read/write/read cycle. Keeping the controls locked
+  // until readback finishes also prevents startup reads or rapid clicks from
+  // overwriting a newer choice. Never infer the applied value from a set exit code.
+  function createPicker(kind, cards, attribute, mark, read, write) {
+    const group = document.querySelector(`#${kind}-choice`);
+    const status = document.querySelector(`#${kind}-status`);
+    const valid = (value) => cards.some((card) => card.dataset[attribute] === value);
+    let busy = true;
+    let available = false;
+
+    function lock(value) {
+      busy = value;
+      group.setAttribute("aria-busy", String(value));
+      // Disabled buttons lose focus. Park it on the group while waiting, then
+      // restore it only if the user has not moved elsewhere in the meantime.
+      if (value && cards.includes(document.activeElement)) {
+        group.tabIndex = -1;
+        group.focus();
+      }
+      cards.forEach((card) => { card.disabled = value || !available; });
+      if (!value && available && document.activeElement === group) {
+        cards.find((card) => card.getAttribute("aria-checked") === "true").focus();
+      }
     }
+
+    async function refresh() {
+      let value;
+      try { value = await read(); } catch (_) { value = null; }
+      available = valid(value);
+      mark(available ? value : null);
+      return available ? value : null;
+    }
+
+    mark(null);
+    lock(true);
+    return {
+      async load() {
+        await refresh();
+        status.textContent = available ? "" : messages[`${kind}Unavailable`];
+        lock(false);
+      },
+      async choose(value) {
+        if (busy || !available || !valid(value)) return;
+        lock(true);
+        status.textContent = messages[`${kind}Applying`];
+        let succeeded = true;
+        try { await write(value); } catch (_) { succeeded = false; }
+        // A failed write may have applied partially. Read even on error; if the
+        // read fails too, clear the selection instead of claiming an old value.
+        const actual = await refresh();
+        status.textContent = messages[!available ? `${kind}Unavailable`
+          : succeeded && actual === value ? `${kind}Applied` : `${kind}Failed`];
+        lock(false);
+      },
+    };
   }
 
-  async function loadProfile() {
-    let current_profile = "lyra";
-    try {
-      current_profile = await window.__TAURI__.core.invoke("desktop_profile");
-    } catch (_) {
-      current_profile = "unavailable";
-    }
-    if (current_profile === "unavailable") {
-      // Never offer a profile the system cannot deliver.
-      profileAvailable = false;
-      const lyra = profileCards.find((card) => card.dataset.profile === "lyra");
-      if (lyra) lyra.disabled = true;
-      document.querySelector("#profile-status").textContent = messages.profileUnavailable;
-      markProfile("vanilla");
-      return;
-    }
-    markProfile(current_profile);
-  }
+  const themePicker = createPicker("theme", themeCards, "theme", markTheme,
+    () => window.__TAURI__.core.invoke("color_scheme"),
+    (theme) => window.__TAURI__.core.invoke("set_color_scheme", { theme }));
+  const profilePicker = createPicker("profile", profileCards, "profile", markProfile,
+    () => window.__TAURI__.core.invoke("desktop_profile"),
+    (profile) => window.__TAURI__.core.invoke("set_desktop_profile", { profile }));
+  const chooseTheme = (theme) => themePicker.choose(theme);
+  const chooseProfile = (profile) => profilePicker.choose(profile);
 
   function showNetworkStatus(status) {
     const card = document.querySelector("#network-status");
@@ -210,7 +217,7 @@
   });
 
   applyLocale(supportedLocale(navigator.language));
-  loadTheme();
-  loadProfile();
+  themePicker.load();
+  profilePicker.load();
   checkNetwork();
 })();
