@@ -113,7 +113,7 @@ def load_layout(source):
           const cards = [...document.querySelectorAll('.profile-card')];
           const boxes = cards.map(card => card.getBoundingClientRect());
           const footer = document.querySelector('footer').getBoundingClientRect();
-          if (cards.length !== 5) throw Error('Missing profile');
+          if (cards.length !== 6) throw Error('Missing profile');
           if (boxes.some(b => b.left < 0 || b.right > innerWidth)) throw Error('Horizontal clipping');
           if (page.scrollWidth > page.clientWidth) throw Error('Horizontal overflow');
           if (footer.bottom > innerHeight || footer.height < 40) throw Error('Footer inaccessible');

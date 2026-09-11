@@ -3,7 +3,14 @@
 use std::process::{Command, Stdio};
 
 const VEGA: &str = "/usr/bin/vega-gtk";
-const IDS: [&str; 5] = ["lyra", "vanilla", "ubuntu", "windows10", "windows11"];
+const IDS: [&str; 6] = [
+    "lyra",
+    "vanilla",
+    "ubuntu",
+    "windows10",
+    "windows11",
+    "macos",
+];
 
 fn invoke(arguments: &[&str]) -> Result<String, String> {
     let output = Command::new(VEGA)

@@ -77,7 +77,7 @@ class WelcomeContractTests(unittest.TestCase):
         self.assertLess(theme, profile)
         self.assertLess(profile, network)
         self.assertEqual(markup.count('class="progress-dot'), markup.count("<section class="))
-        for value in ("lyra", "vanilla", "ubuntu", "windows10", "windows11"):
+        for value in ("lyra", "vanilla", "ubuntu", "windows10", "windows11", "macos"):
             self.assertIn(f'data-profile="{value}"', markup)
 
     def test_desktop_profile_reuses_the_versioned_vega_contract(self) -> None:
@@ -88,8 +88,8 @@ class WelcomeContractTests(unittest.TestCase):
         self.assertIn('.arg("--desktop-profile")', profiles)
         self.assertNotIn("enabled-extensions", rust + profiles)
         self.assertNotIn("desktop-profile-settings", rust + profiles)
-        self.assertRegex(spec, r"(?m)^Requires:\s+vega-gtk >= 5\.1\.33$")
-        self.assertRegex(spec, r"(?m)^Requires:\s+sheliak >= 1\.15\.0$")
+        self.assertRegex(spec, r"(?m)^Requires:\s+vega-gtk >= 5\.1\.34$")
+        self.assertRegex(spec, r"(?m)^Requires:\s+sheliak >= 1\.16\.0$")
 
     def test_appearance_uses_the_gnome_color_scheme_key(self) -> None:
         rust = (WELCOME / "src-tauri/src/main.rs").read_text(encoding="utf-8")
@@ -132,6 +132,8 @@ class WelcomeContractTests(unittest.TestCase):
             "profileWindows10Text",
             "profileWindows11Title",
             "profileWindows11Text",
+            "profileMacosTitle",
+            "profileMacosText",
             "profileApplied",
             "profileFailed",
             "profileUnavailable",
