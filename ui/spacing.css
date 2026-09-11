@@ -376,3 +376,69 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Five layouts keep their previews together. The page scrolls independently
+   at small heights, leaving Back/Next reachable in the fixed footer. */
+.page[data-page="profile"] {
+  grid-template-columns: 1fr;
+  align-items: start;
+  overflow-y: auto;
+  padding: 12px 5px;
+}
+.page[data-page="profile"] .profile-visual { display: none; }
+.page[data-page="profile"] h1 { font-size: 38px; margin: 8px 0 12px; }
+.page[data-page="profile"] .lead { max-width: none; font-size: 14px; }
+.profiles { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 16px; gap: 12px; }
+.profile-card { padding: 12px; }
+.profile-card h2 { margin-top: 8px; }
+.profile-card p { font-size: 12px; }
+.profile-thumb { height: 62px; }
+.profile-thumb.lyra .thumb-panel { top: 4px; left: 4px; right: 4px; border-radius: 3px; }
+.profile-thumb.lyra .thumb-dock { left: 25%; right: 25%; bottom: 5px; }
+.profile-thumb.vanilla .thumb-dash { opacity: .6; }
+.profile-thumb.ubuntu .thumb-dock { left: 0; top: 7px; bottom: 0; width: 12px; height: auto; border-radius: 0; }
+.profile-thumb.ubuntu .thumb-start { display: none; }
+.profile-thumb.windows10 .thumb-panel,
+.profile-thumb.windows11 .thumb-panel { display: none; }
+.profile-thumb.windows10 .thumb-dock,
+.profile-thumb.windows11 .thumb-dock { left: 0; right: 0; bottom: 0; height: 11px; border-radius: 0; }
+.profile-thumb.windows10 .thumb-dock::after,
+.profile-thumb.windows11 .thumb-dock::after {
+  content: "L ▪ ▪ ▪"; position: absolute; color: var(--fg); font-size: 9px; top: 0; left: 5px;
+}
+.profile-thumb.windows11 .thumb-dock::after { left: 50%; transform: translateX(-50%); }
+.profile-thumb .thumb-start { display: none; }
+.profile-thumb.windows10 .thumb-start,
+.profile-thumb.windows11 .thumb-start { display: block; bottom: 13px; height: 34px; background: var(--panel); border: 1px solid var(--mark-line); }
+.profile-thumb.windows10 .thumb-start { left: 3px; width: 65px; border-radius: 0; }
+.profile-thumb.windows11 .thumb-start { left: 50%; width: 62px; transform: translateX(-50%); border-radius: 5px; }
+.profile-thumb.windows10 .thumb-start::after {
+  content: ""; position: absolute; left: 30px; top: 5px; width: 12px; height: 10px;
+  background: var(--mark-line); box-shadow: 15px 0 var(--mark-line), 0 13px var(--mark-line), 15px 13px var(--mark-line);
+}
+.profile-thumb.windows11 .thumb-start::after {
+  content: ""; position: absolute; left: 10px; top: 10px; width: 7px; height: 7px;
+  background: var(--mark-line); box-shadow: 16px 0 var(--mark-line), 32px 0 var(--mark-line), 0 12px var(--mark-line), 16px 12px var(--mark-line), 32px 12px var(--mark-line);
+}
+@media (max-width: 700px) { .profiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (prefers-reduced-motion: reduce) { .page { animation: none; } }
+.page[data-page="profile"] .copy { max-width: none; }
+.profile-thumb i { font-style: normal; }
+@media (max-height: 650px) {
+  .page[data-page="profile"] .profile-thumb { height: 42px; }
+  .page[data-page="profile"] .profile-card { padding: 10px; }
+  .page[data-page="profile"] .profile-card p { font-size: 11px; }
+  .page[data-page="profile"] .profiles { margin-top: 12px; gap: 10px; }
+}
+@media (max-height: 650px) {
+  .profile-thumb.windows10 .thumb-start,
+  .profile-thumb.windows11 .thumb-start { height: 24px; }
+  .profile-thumb.windows10 .thumb-start::after {
+    top: 3px; width: 7px; height: 7px;
+    box-shadow: 11px 0 var(--mark-line), 0 10px var(--mark-line), 11px 10px var(--mark-line);
+  }
+  .profile-thumb.windows11 .thumb-start::after {
+    top: 3px; width: 6px; height: 6px;
+    box-shadow: 16px 0 var(--mark-line), 32px 0 var(--mark-line), 0 10px var(--mark-line), 16px 10px var(--mark-line), 32px 10px var(--mark-line);
+  }
+}

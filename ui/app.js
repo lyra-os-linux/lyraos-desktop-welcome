@@ -46,7 +46,7 @@
     pages[current].querySelector("h1").focus({ preventScroll: true });
   }
 
-  // Both pickers are radiogroups over a pair of cards; the only thing that
+  // Both pickers are radiogroups over their cards; the only thing that
   // differs is which preview element mirrors the choice.
   function markChoice(cards, attribute, selected, preview) {
     cards.forEach((card) => {
@@ -67,10 +67,14 @@
 
   function bindArrowKeys(group, cards, attribute, fallback, choose) {
     group.addEventListener("keydown", (event) => {
-      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+      if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
       event.preventDefault();
       const current_value = selectedOf(cards, attribute, fallback);
-      const target = cards.find((card) => card.dataset[attribute] !== current_value);
+      const index = cards.findIndex((card) => card.dataset[attribute] === current_value);
+      const step = ["ArrowLeft", "ArrowUp"].includes(event.key) ? -1 : 1;
+      const targetIndex = event.key === "Home" ? 0 : event.key === "End" ? cards.length - 1
+        : (index + step + cards.length) % cards.length;
+      const target = cards[targetIndex];
       if (!target || target.disabled) return;
       choose(target.dataset[attribute]);
       target.focus();

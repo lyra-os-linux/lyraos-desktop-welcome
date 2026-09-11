@@ -25,3 +25,7 @@ jobs:
         run: python3 -m unittest discover -s tests -v
       - name: Exercise picker failures and concurrent input in three locales
         run: node tests/test-pickers.mjs
+      - name: Validate Rust profile response parsing
+        run: |
+          rustc --edition=2024 --test src-tauri/src/profiles.rs -o /tmp/welcome-profile-tests
+          /tmp/welcome-profile-tests
