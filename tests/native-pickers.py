@@ -17,6 +17,7 @@ HERE = Path(__file__).resolve().parent
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--source", type=Path, default=HERE.parent)
 parser.add_argument("--output", type=Path, required=True)
+parser.add_argument("--layout", action="store_true", help="Capture and verify profile layout at two sizes and both schemes")
 parser.add_argument("--session", action="store_true", help=argparse.SUPPRESS)
 parser.add_argument("--worker", action="store_true", help=argparse.SUPPRESS)
 args = parser.parse_args()
@@ -35,7 +36,7 @@ if not args.session and not args.worker:
             env.pop(key, None)
         result = subprocess.run(["dbus-run-session", "--", sys.executable, __file__,
                                  "--source", str(args.source), "--output", str(args.output),
-                                 "--session"], env=env, timeout=180)
+                                 "--session", *(["--layout"] if args.layout else [])], env=env, timeout=180)
         sys.exit(result.returncode)
 
 if args.session:
@@ -53,7 +54,7 @@ if args.session:
             else:
                 raise RuntimeError("Mutter startup timed out")
             result = subprocess.run([sys.executable, __file__, "--source", str(args.source),
-                                     "--output", str(args.output), "--worker"], timeout=150)
+                                     "--output", str(args.output), "--worker", *(["--layout"] if args.layout else [])], timeout=150)
         finally:
             compositor.terminate()
             try:
@@ -83,6 +84,9 @@ window.show_all()
 def load_case():
     manager.remove_all_scripts()
     source = "Object.defineProperty(navigator, 'language', {value: " + json.dumps(locales[locale_index]) + "});\n"
+    if args.layout:
+        load_layout(source)
+        return GLib.SOURCE_REMOVE
     source += (HERE / "picker-scenarios.js").read_text()
     source += "\ndocument.addEventListener('DOMContentLoaded', async () => {\n"
     source += f"const item = window.pickerCases[{index}];\n"
@@ -93,6 +97,43 @@ def load_case():
     view.load_uri((args.source / "ui/index.html").as_uri() + f"?case={index}&locale={locale_index}")
     return GLib.SOURCE_REMOVE
 
+layout_cases = [(width, height, scheme) for width, height in [(1040, 720), (780, 600)] for scheme in ["light", "dark"]]
+
+def load_layout(source):
+    width, height, scheme = layout_cases[index]
+    window.resize(width, height)
+    source += "window.__TAURI__ = {core:{invoke:async command => command === 'color_scheme' ? " + json.dumps(scheme) + " : command === 'desktop_profile' ? 'windows10' : 'connected'}};\n"
+    source += r"""
+    document.addEventListener('DOMContentLoaded', () => setTimeout(() => {
+      document.querySelector('#next').click(); document.querySelector('#next').click();
+      setTimeout(() => {
+        let error = null;
+        try {
+          const page = document.querySelector('[data-page="profile"]');
+          const cards = [...document.querySelectorAll('.profile-card')];
+          const boxes = cards.map(card => card.getBoundingClientRect());
+          const footer = document.querySelector('footer').getBoundingClientRect();
+          if (cards.length !== 5) throw Error('Missing profile');
+          if (boxes.some(b => b.left < 0 || b.right > innerWidth)) throw Error('Horizontal clipping');
+          if (page.scrollWidth > page.clientWidth) throw Error('Horizontal overflow');
+          if (footer.bottom > innerHeight || footer.height < 40) throw Error('Footer inaccessible');
+          for (let a = 0; a < boxes.length; a++) for (let b = a+1; b < boxes.length; b++) {
+            const x = boxes[a], y = boxes[b];
+            if (Math.min(x.right,y.right) > Math.max(x.left,y.left) && Math.min(x.bottom,y.bottom) > Math.max(x.top,y.top)) throw Error('Overlapping cards');
+          }
+          cards.at(-1).scrollIntoView({block:'nearest'});
+          const last = cards.at(-1).getBoundingClientRect();
+          if (last.bottom > footer.top || last.top < page.getBoundingClientRect().top) throw Error('Last card inaccessible');
+          page.scrollTop = 0;
+        } catch(e) { error = String(e); }
+        window.webkit.messageHandlers.result.postMessage(JSON.stringify({name:'profile layout', error, locale:document.documentElement.lang, total:4, width:innerWidth, height:innerHeight}));
+      }, 150);
+    }, 150));
+    """
+    manager.add_script(WebKit2.UserScript.new(source, WebKit2.UserContentInjectedFrames.TOP_FRAME,
+                                             WebKit2.UserScriptInjectionTime.START, None, None))
+    view.load_uri((args.source / "ui/index.html").as_uri() + f"?layout={index}&locale={locale_index}")
+
 def receive(_manager, value):
     global index, locale_index
     result = json.loads(value.get_js_value().to_string())
@@ -100,8 +141,24 @@ def receive(_manager, value):
         result["error"] = "Unexpected document locale: " + result["locale"]
     results.append(result)
     print(("FAIL" if result["error"] else "PASS") + f": {result['locale']} {result['name']}", flush=True)
+    if args.layout:
+        width, height, scheme = layout_cases[index]
+        name = f"{locales[locale_index]}-{width}x{height}-{scheme}.png"
+        def captured(webview, result, _data):
+            try:
+                surface = webview.get_snapshot_finish(result)
+                surface.write_to_png(str(args.output / name))
+            except Exception as error:
+                results.append({"error": str(error)})
+            next_case()
+        view.get_snapshot(WebKit2.SnapshotRegion.VISIBLE, WebKit2.SnapshotOptions.NONE, None, captured, None)
+    else:
+        next_case()
+
+def next_case():
+    global index, locale_index
     index += 1
-    if index == result["total"]:
+    if index == (len(layout_cases) if args.layout else results[-1]["total"]):
         index = 0
         locale_index += 1
     if locale_index == len(locales):

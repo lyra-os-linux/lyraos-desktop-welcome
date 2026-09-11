@@ -1,4 +1,13 @@
 -------------------------------------------------------------------
+Fri Sep 11 2026 - Rodrigo Brito <183213+britors@users.noreply.github.com>
+
+- Update to 0.3.0.
+- Offer all five GNOME desktop profiles with translated layout previews.
+- Reuse Vega GTK 5.1.33 profile command and saved preferences.
+- Preserve confirmed readback and error handling for every profile.
+- Extend keyboard navigation and validate small-window layouts.
+
+-------------------------------------------------------------------
 Wed Sep 02 00:00:00 UTC 2026 - Lyra OS Release <rodrigo@lyraos.com.br>
 
 - Disable WebKit accelerated compositing for the Welcome window before Tauri

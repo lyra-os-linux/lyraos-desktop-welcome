@@ -67,7 +67,7 @@
         <div class="copy">
           <p class="eyebrow" data-i18n="profileEyebrow">MAKE IT YOURS</p>
           <h1 id="profile-title" tabindex="-1" data-i18n="profileTitle">Choose your desktop</h1>
-          <p class="lead" data-i18n="profileLead">Lyra ships two desktop profiles. Pick one now — Vega can switch it again whenever you like.</p>
+          <p class="lead" data-i18n="profileLead">Choose one of five layouts. You can switch again in Vega while keeping your preferences.</p>
           <div id="profile-choice" class="profiles" role="radiogroup" data-i18n-aria="profileGroupLabel">
             <button class="profile-card" type="button" disabled role="radio" aria-checked="false" data-profile="lyra">
               <span class="profile-thumb lyra" aria-hidden="true"><i class="thumb-panel"></i><i class="thumb-dock"></i></span>
@@ -78,6 +78,21 @@
               <span class="profile-thumb vanilla" aria-hidden="true"><i class="thumb-panel"></i><i class="thumb-dash"></i></span>
               <h2 data-i18n="profileVanillaTitle">GNOME Vanilla</h2>
               <p data-i18n="profileVanillaText">The standard GNOME experience, unchanged.</p>
+            </button>
+            <button class="profile-card" type="button" disabled role="radio" aria-checked="false" data-profile="ubuntu">
+              <span class="profile-thumb ubuntu" aria-hidden="true"><i class="thumb-panel"></i><i class="thumb-dock"></i><i class="thumb-start"></i></span>
+              <h2 data-i18n="profileUbuntuTitle">Ubuntu</h2>
+              <p data-i18n="profileUbuntuText">Full-height dock on the left, with a simple top bar.</p>
+            </button>
+            <button class="profile-card" type="button" disabled role="radio" aria-checked="false" data-profile="windows10">
+              <span class="profile-thumb windows10" aria-hidden="true"><i class="thumb-panel"></i><i class="thumb-dock"></i><i class="thumb-start"></i></span>
+              <h2 data-i18n="profileWindows10Title">Windows 10</h2>
+              <p data-i18n="profileWindows10Text">Bottom panel aligned left, with an L menu and resizable tiles.</p>
+            </button>
+            <button class="profile-card" type="button" disabled role="radio" aria-checked="false" data-profile="windows11">
+              <span class="profile-thumb windows11" aria-hidden="true"><i class="thumb-panel"></i><i class="thumb-dock"></i><i class="thumb-start"></i></span>
+              <h2 data-i18n="profileWindows11Title">Windows 11</h2>
+              <p data-i18n="profileWindows11Text">Centered bottom panel, with an L menu and pinned app grid.</p>
             </button>
           </div>
           <p id="profile-status" class="launch-status" role="status" aria-live="polite"></p>

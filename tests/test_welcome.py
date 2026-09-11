@@ -66,7 +66,7 @@ class WelcomeContractTests(unittest.TestCase):
         self.assertIn('Command::new("/usr/bin/nmcli")', rust)
         self.assertIn('launch("/usr/bin/gnome-control-center", &["wifi"])', rust)
         self.assertIn('launch("/usr/bin/vega-gtk", &[])', rust)
-        for package in ("NetworkManager", "gnome-control-center", "vega-gtk"):
+        for package in ("NetworkManager", "gnome-control-center"):
             self.assertRegex(spec, rf"(?m)^Requires:\s+{re.escape(package)}$")
 
     def test_setup_pages_are_ordered_theme_profile_network(self) -> None:
@@ -77,21 +77,19 @@ class WelcomeContractTests(unittest.TestCase):
         self.assertLess(theme, profile)
         self.assertLess(profile, network)
         self.assertEqual(markup.count('class="progress-dot'), markup.count("<section class="))
-        for value in ("lyra", "vanilla"):
+        for value in ("lyra", "vanilla", "ubuntu", "windows10", "windows11"):
             self.assertIn(f'data-profile="{value}"', markup)
 
-    def test_desktop_profile_switches_only_the_sheliak_extension(self) -> None:
-        rust = (WELCOME / "src-tauri/src/main.rs").read_text(encoding="utf-8")
-        app = (WELCOME / "ui/app.js").read_text(encoding="utf-8")
-        spec = (WELCOME / "packaging/lyra-welcome.spec").read_text(encoding="utf-8")
-        # Vega toggles this same UUID in this same key; the two must agree.
-        self.assertIn('const SHELIAK_UUID: &str = "sheliak@lyraos.com.br"', rust)
-        self.assertIn('const SHELL_SCHEMA: &str = "org.gnome.shell"', rust)
-        self.assertIn('const EXTENSIONS_KEY: &str = "enabled-extensions"', rust)
-        self.assertIn('Command::new("/usr/bin/gsettings")', rust)
-        self.assertIn('core.invoke("desktop_profile")', app)
-        self.assertIn('core.invoke("set_desktop_profile", { profile })', app)
-        self.assertRegex(spec, r"(?m)^Requires:\s+glib2-tools$")
+    def test_desktop_profile_reuses_the_versioned_vega_contract(self) -> None:
+        rust = (WELCOME / "src-tauri/src/main.rs").read_text()
+        profiles = (WELCOME / "src-tauri/src/profiles.rs").read_text()
+        spec = (WELCOME / "packaging/lyra-welcome.spec").read_text()
+        self.assertIn('"/usr/bin/vega-gtk"', profiles)
+        self.assertIn('.arg("--desktop-profile")', profiles)
+        self.assertNotIn("enabled-extensions", rust + profiles)
+        self.assertNotIn("desktop-profile-settings", rust + profiles)
+        self.assertRegex(spec, r"(?m)^Requires:\s+vega-gtk >= 5\.1\.33$")
+        self.assertRegex(spec, r"(?m)^Requires:\s+sheliak >= 1\.15\.0$")
 
     def test_appearance_uses_the_gnome_color_scheme_key(self) -> None:
         rust = (WELCOME / "src-tauri/src/main.rs").read_text(encoding="utf-8")
@@ -128,6 +126,12 @@ class WelcomeContractTests(unittest.TestCase):
             "profileTitle",
             "profileLyraTitle",
             "profileVanillaTitle",
+            "profileUbuntuTitle",
+            "profileUbuntuText",
+            "profileWindows10Title",
+            "profileWindows10Text",
+            "profileWindows11Title",
+            "profileWindows11Text",
             "profileApplied",
             "profileFailed",
             "profileUnavailable",
