@@ -24,7 +24,7 @@ python3 -m unittest discover -s tests -v
 node tests/test-pickers.mjs
 ```
 
-The 93 UI scenarios cover both pickers in English, Portuguese and Spanish,
+The 96 UI scenarios cover both pickers in English, Portuguese and Spanish,
 including non-writable-key errors, unavailable reads, mismatched readback,
 partial application, retries, rapid clicks/arrows and keyboard focus. CI runs
 them against the shipped JavaScript and markup with a minimal DOM adapter.
@@ -40,13 +40,14 @@ dbus-run-session. Both harnesses simulate Tauri IPC and never modify the user's
 settings. They validate UI behavior under backend failures, not a full installed
 RPM, Tauri-to-gsettings integration, VM login, or screen-reader output.
 
-The profile page offers **Lyra, GNOME Vanilla, Ubuntu, Windows 10 and Windows 11**
+The profile page offers **Lyra, GNOME Vanilla, Ubuntu, Windows 10, Windows 11 and MacOS X**
 with illustrative layout previews and short descriptions in all three languages.
-Arrow keys cycle through the five choices; Home and End select the endpoints.
+Arrow keys cycle through the six choices; Home and End select the endpoints.
 The profile page scrolls at small heights while navigation stays visible.
 
-Welcome 0.3.0 calls `vega-gtk --desktop-profile get/set`, introduced in Vega GTK
-5.1.33. The RPM requires that version and Sheliak 1.15.0 or newer. Profile presets,
+Welcome 0.4.0 calls `vega-gtk --desktop-profile get/set`, introduced in Vega GTK
+5.1.33. MacOS X requires Vega GTK 5.1.34 and Sheliak 1.16.0 or newer,
+as declared in the RPM. Profile presets,
 snapshots, extension toggles and restore logic remain owned by Vega; Welcome
 never writes an independent set of profile settings. Theme selection still uses
 GNOME's color-scheme setting. Reopening either client reads the stored selection.

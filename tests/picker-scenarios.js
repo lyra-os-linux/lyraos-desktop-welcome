@@ -123,11 +123,11 @@
     await reply("set_color_scheme", null); await reply("color_scheme", "light");
     assert(document.querySelector('[data-profile="vanilla"]').getAttribute("aria-checked") === "true", "Theme completion changed profile");
   } });
-  for (const initial of ["lyra", "vanilla", "ubuntu", "windows10", "windows11"]) {
-    cases.push({ name: `profile: reads ${initial} and visits all five profiles`, async run() {
-      const ids = ["lyra", "vanilla", "ubuntu", "windows10", "windows11"];
+  for (const initial of ["lyra", "vanilla", "ubuntu", "windows10", "windows11", "macos"]) {
+    cases.push({ name: `profile: reads ${initial} and visits all six profiles`, async run() {
+      const ids = ["lyra", "vanilla", "ubuntu", "windows10", "windows11", "macos"];
       const cards = [...document.querySelectorAll(".profile-card")];
-      assert(cards.length === 5, "Missing profile cards");
+      assert(cards.length === 6, "Missing profile cards");
       await reply("desktop_profile", initial);
       assert(cards.find(c => c.dataset.profile === initial).getAttribute("aria-checked") === "true", "Wrong initial profile");
       for (const id of ids) {
@@ -141,12 +141,12 @@
       }
     }});
   }
-  cases.push({ name: "profile: keyboard traverses all five cards in both directions", async run() {
+  cases.push({ name: "profile: keyboard traverses all six cards in both directions", async run() {
     await reply("desktop_profile", "lyra");
     const group = document.querySelector("#profile-choice");
     for (const [key, id] of [["ArrowRight", "vanilla"], ["ArrowDown", "ubuntu"],
-      ["ArrowRight", "windows10"], ["ArrowRight", "windows11"], ["ArrowRight", "lyra"],
-      ["ArrowLeft", "windows11"], ["ArrowUp", "windows10"], ["Home", "lyra"], ["End", "windows11"]]) {
+      ["ArrowRight", "windows10"], ["ArrowRight", "windows11"], ["ArrowRight", "macos"], ["ArrowRight", "lyra"],
+      ["ArrowLeft", "macos"], ["ArrowUp", "windows11"], ["Home", "lyra"], ["End", "macos"]]) {
       group.dispatchEvent(new KeyboardEvent("keydown", {key, bubbles: true}));
       assert(pending.find(c => c.command === "set_desktop_profile")?.args.profile === id, `Wrong target for ${key}`);
       await reply("set_desktop_profile", null); await reply("desktop_profile", id);
