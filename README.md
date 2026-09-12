@@ -40,13 +40,13 @@ dbus-run-session. Both harnesses simulate Tauri IPC and never modify the user's
 settings. They validate UI behavior under backend failures, not a full installed
 RPM, Tauri-to-gsettings integration, VM login, or screen-reader output.
 
-The profile page offers **Lyra, GNOME Vanilla, Ubuntu, Windows 10, Windows 11 and MacOS X**
+The profile page offers **Lyra, GNOME Vanilla, Ubuntu, Lyra Classic, Lyra Central and Lyra Floating**
 with illustrative layout previews and short descriptions in all three languages.
 Arrow keys cycle through the six choices; Home and End select the endpoints.
 The profile page scrolls at small heights while navigation stays visible.
 
 Welcome 0.4.0 calls `vega-gtk --desktop-profile get/set`, introduced in Vega GTK
-5.1.33. MacOS X requires Vega GTK 5.1.34 and Sheliak 1.16.0 or newer,
+5.1.33. Lyra Floating requires Vega GTK 5.1.34 and Sheliak 1.16.0 or newer,
 as declared in the RPM. Profile presets,
 snapshots, extension toggles and restore logic remain owned by Vega; Welcome
 never writes an independent set of profile settings. Theme selection still uses
