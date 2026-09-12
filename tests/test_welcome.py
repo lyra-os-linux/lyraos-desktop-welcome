@@ -88,8 +88,8 @@ class WelcomeContractTests(unittest.TestCase):
         self.assertIn('.arg("--desktop-profile")', profiles)
         self.assertNotIn("enabled-extensions", rust + profiles)
         self.assertNotIn("desktop-profile-settings", rust + profiles)
-        self.assertRegex(spec, r"(?m)^Requires:\s+vega-gtk >= 5\.1\.34$")
-        self.assertRegex(spec, r"(?m)^Requires:\s+sheliak >= 1\.16\.0$")
+        self.assertRegex(spec, r"(?m)^Requires:\s+vega-gtk >= 5\.1\.35$")
+        self.assertRegex(spec, r"(?m)^Requires:\s+sheliak >= 2\.0\.0$")
 
     def test_appearance_uses_the_gnome_color_scheme_key(self) -> None:
         rust = (WELCOME / "src-tauri/src/main.rs").read_text(encoding="utf-8")

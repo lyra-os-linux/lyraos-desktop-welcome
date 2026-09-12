@@ -1,5 +1,5 @@
 Name:           lyra-welcome
-Version:        0.4.0
+Version:        0.4.1
 Release:        0
 %global debug_package %{nil}
 Summary:        First-login welcome application for Lyra OS
@@ -21,8 +21,8 @@ Requires:       bash
 Requires:       coreutils
 Requires:       NetworkManager
 Requires:       gnome-control-center
-Requires:       vega-gtk >= 5.1.34
-Requires:       sheliak >= 1.16.0
+Requires:       vega-gtk >= 5.1.35
+Requires:       sheliak >= 2.0.0
 # gsettings, used to read and change the appearance.
 Requires:       glib2-tools
 
