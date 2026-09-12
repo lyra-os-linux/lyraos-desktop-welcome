@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Sat Sep 12 2026 - Rodrigo Brito
+
+- 0.4.1: use Lyra Classic, Central and Floating profile labels in three
+  languages; require the Vega/Sheliak extension suite contract.
+
+-------------------------------------------------------------------
 Fri Sep 11 2026 - Rodrigo Brito <183213+britors@users.noreply.github.com>
 
 - Update to 0.3.0.
