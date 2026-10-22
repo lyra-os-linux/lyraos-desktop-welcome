@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Thu Oct 22 2026 - Rodrigo Brito <183213+britors@users.noreply.github.com>
+
+- 0.4.2: show "ODISSEIA · 16.1" instead of "ODISSEIA · ALPHA" in the
+  Welcome header; the Desktop 16.1 RC 1 image still announced an Alpha.
+
+-------------------------------------------------------------------
 Sat Sep 12 2026 - Rodrigo Brito
 
 - 0.4.1: use Lyra Classic, Central and Floating profile labels in three
