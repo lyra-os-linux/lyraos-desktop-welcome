@@ -216,6 +216,34 @@
       status.textContent = messages.vegaOpenFailed;
     }
   });
+  // Verificação semanal do Vega: o cartão só aparece com um vegad que a tem.
+  const healthCard = document.querySelector("#health-card");
+  const healthSwitch = document.querySelector("#health-switch");
+  const healthStatus = document.querySelector("#health-status");
+  const showHealth = (state) => {
+    healthSwitch.checked = state === "on";
+    healthStatus.textContent = state === "on" ? messages.healthOn : messages.healthOff;
+  };
+  const loadHealth = async () => {
+    let state = "unavailable";
+    try { state = await window.__TAURI__.core.invoke("health_check"); } catch (_) { /* fica oculto */ }
+    healthCard.hidden = state === "unavailable";
+    if (!healthCard.hidden) showHealth(state);
+  };
+  healthSwitch.addEventListener("change", async () => {
+    const wanted = healthSwitch.checked;
+    healthSwitch.disabled = true;
+    try {
+      showHealth(await window.__TAURI__.core.invoke("set_health_check", { enabled: wanted }));
+    } catch (readback) {
+      // Senha cancelada ou erro: mostra o estado que o sistema confirmou.
+      if (readback === "on" || readback === "off") showHealth(readback);
+      else healthSwitch.checked = !wanted;
+      healthStatus.textContent = messages.healthFailed;
+    } finally {
+      healthSwitch.disabled = false;
+    }
+  });
   document.querySelector("#finish").addEventListener("click", async () => {
     await window.__TAURI__.core.invoke("close_welcome");
   });
@@ -224,4 +252,5 @@
   themePicker.load();
   profilePicker.load();
   checkNetwork();
+  loadHealth();
 })();

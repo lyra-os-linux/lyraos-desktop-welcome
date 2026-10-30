@@ -138,6 +138,12 @@
             <span class="vega-mark" aria-hidden="true">✦</span>
             <div><h2 data-i18n="vegaCardTitle">Configure Lyra with confidence</h2><p data-i18n="vegaCardText">Review system options, hardware and software without searching through separate tools.</p></div>
           </div>
+          <div id="health-card" class="vega-card health-card" hidden>
+            <span class="vega-mark" aria-hidden="true">♥</span>
+            <div class="health-copy"><h2 id="health-title" data-i18n="healthTitle">Weekly health check</h2><p id="health-text" data-i18n="healthText">Vega checks the disk, logs and security in the background and lets you know only when something changes.</p></div>
+            <label class="switch"><input id="health-switch" type="checkbox" role="switch" aria-labelledby="health-title" aria-describedby="health-text"><span class="track" aria-hidden="true"></span></label>
+          </div>
+          <p id="health-status" class="launch-status" role="status" aria-live="polite"></p>
           <button id="open-vega" class="secondary launch" type="button"><span data-i18n="openVega">Open Vega</span><span aria-hidden="true">↗</span></button>
           <p id="launch-status" class="launch-status" role="status" aria-live="polite"></p>
         </div>

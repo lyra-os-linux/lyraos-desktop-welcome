@@ -85,6 +85,91 @@ async fn set_desktop_profile(profile: String) -> Result<(), String> {
         .map_err(|error| error.to_string())?
 }
 
+/// The weekly health check of Vega (vegad `Diagnostics.GetPeriodic` and
+/// `SetPeriodic`). Turning it off asks for the administrator password through
+/// polkit, so the call waits up to five minutes for the dialog.
+fn periodic_call(method: &str, arguments: &[&str]) -> Option<String> {
+    let output = Command::new("/usr/bin/gdbus")
+        .args([
+            "call",
+            "--system",
+            "--dest",
+            "org.lyraos.Vega1",
+            "--object-path",
+            "/org/lyraos/Vega1",
+            "--timeout",
+            "300",
+            "--method",
+            &format!("org.lyraos.Vega1.Diagnostics.{method}"),
+        ])
+        .args(arguments)
+        .stdin(Stdio::null())
+        .output()
+        .ok()?;
+    output
+        .status
+        .success()
+        .then(|| String::from_utf8_lossy(&output.stdout).trim().to_owned())
+}
+
+/// Reads gdbus' "(true, 'weekly')".
+fn parse_periodic(output: &str) -> Option<(bool, String)> {
+    let inner = output.trim().strip_prefix('(')?.strip_suffix(')')?;
+    let (enabled, frequency) = inner.split_once(',')?;
+    let enabled = match enabled.trim() {
+        "true" => true,
+        "false" => false,
+        _ => return None,
+    };
+    let frequency = frequency.trim().trim_matches('\'').to_owned();
+    matches!(frequency.as_str(), "weekly" | "daily").then_some((enabled, frequency))
+}
+
+/// "on" | "off" | "unavailable" (an older vegad without the check).
+#[tauri::command]
+async fn health_check() -> String {
+    tauri::async_runtime::spawn_blocking(|| {
+        match periodic_call("GetPeriodic", &[])
+            .as_deref()
+            .and_then(parse_periodic)
+        {
+            Some((true, _)) => "on".to_owned(),
+            Some((false, _)) => "off".to_owned(),
+            None => "unavailable".to_owned(),
+        }
+    })
+    .await
+    .unwrap_or_else(|_| "unavailable".to_owned())
+}
+
+/// Switches the check, keeping its frequency, and returns the state read back.
+#[tauri::command]
+async fn set_health_check(enabled: bool) -> Result<String, String> {
+    tauri::async_runtime::spawn_blocking(move || {
+        let (_, frequency) = periodic_call("GetPeriodic", &[])
+            .as_deref()
+            .and_then(parse_periodic)
+            .ok_or("the health check is unavailable")?;
+        let state = if enabled { "true" } else { "false" };
+        let changed = periodic_call("SetPeriodic", &[state, &frequency]).is_some();
+        let readback = match periodic_call("GetPeriodic", &[])
+            .as_deref()
+            .and_then(parse_periodic)
+        {
+            Some((true, _)) => "on",
+            Some((false, _)) => "off",
+            None => "unavailable",
+        };
+        if changed {
+            Ok(readback.to_owned())
+        } else {
+            Err(readback.to_owned())
+        }
+    })
+    .await
+    .map_err(|error| error.to_string())?
+}
+
 fn launch(program: &str, arguments: &[&str]) -> Result<(), String> {
     Command::new(program)
         .args(arguments)
@@ -128,6 +213,8 @@ fn main() {
             color_scheme,
             set_color_scheme,
             desktop_profile,
+            health_check,
+            set_health_check,
             set_desktop_profile,
             open_wifi_settings,
             open_vega,
@@ -135,4 +222,30 @@ fn main() {
         ])
         .run(tauri::generate_context!())
         .expect("failed to run Lyra Welcome");
+}
+
+#[cfg(test)]
+mod tests {
+    use super::parse_periodic;
+
+    #[test]
+    fn periodic_output_from_gdbus() {
+        assert_eq!(
+            parse_periodic("(true, 'weekly')"),
+            Some((true, "weekly".into()))
+        );
+        assert_eq!(
+            parse_periodic("(false, 'daily')\n"),
+            Some((false, "daily".into()))
+        );
+        for bad in [
+            "",
+            "(true)",
+            "(maybe, 'weekly')",
+            "(true, 'hourly')",
+            "true, 'weekly'",
+        ] {
+            assert_eq!(parse_periodic(bad), None, "{bad}");
+        }
+    }
 }
