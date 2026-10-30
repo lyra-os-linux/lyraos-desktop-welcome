@@ -1,4 +1,12 @@
 -------------------------------------------------------------------
+Fri Oct 30 2026 - Rodrigo Brito <183213+britors@users.noreply.github.com>
+
+- 0.5.0: new "Getting help" page after the network one, with the
+  Vega diagnostics paths and links to the guide and the forum; the
+  Vega page shows the weekly health check with a switch to turn it
+  off (vegad diagnostics-periodic-v1; hidden with an older vegad).
+
+-------------------------------------------------------------------
 Thu Oct 22 2026 - Rodrigo Brito <183213+britors@users.noreply.github.com>
 
 - 0.4.2: show "ODISSEIA · 16.1" instead of "ODISSEIA · ALPHA" in the

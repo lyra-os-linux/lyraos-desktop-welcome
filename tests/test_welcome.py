@@ -55,7 +55,7 @@ class WelcomeContractTests(unittest.TestCase):
         self.assertIn("Math.max(0, Math.min(current, pages.length - 1))", app)
         self.assertIn("[hidden]", styles)
         self.assertIn("display: none !important", styles)
-        self.assertEqual(markup.count('tabindex="-1"'), 5)
+        self.assertEqual(markup.count('tabindex="-1"'), markup.count("<section class="))
         self.assertIn('querySelector("h1").focus({ preventScroll: true })', app)
 
     def test_native_integrations_use_fixed_system_commands(self) -> None:
@@ -74,8 +74,12 @@ class WelcomeContractTests(unittest.TestCase):
         theme = markup.index('data-page="theme"')
         profile = markup.index('data-page="profile"')
         network = markup.index('data-page="network"')
+        help_page = markup.index('data-page="help"')
+        vega = markup.index('data-page="vega"')
         self.assertLess(theme, profile)
         self.assertLess(profile, network)
+        self.assertLess(network, help_page)
+        self.assertLess(help_page, vega)
         self.assertEqual(markup.count('class="progress-dot'), markup.count("<section class="))
         for value in ("lyra", "vanilla", "ubuntu", "windows10", "windows11", "macos"):
             self.assertIn(f'data-profile="{value}"', markup)

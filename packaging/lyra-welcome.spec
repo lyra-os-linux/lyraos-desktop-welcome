@@ -1,5 +1,5 @@
 Name:           lyra-welcome
-Version:        0.4.2
+Version:        0.5.0
 Release:        0
 %global debug_package %{nil}
 Summary:        First-login welcome application for Lyra OS

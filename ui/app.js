@@ -207,6 +207,14 @@
     try { await window.__TAURI__.core.invoke("open_wifi_settings"); }
     catch (_) { showNetworkStatus("unknown"); }
   });
+  const openHelp = (target) => async () => {
+    const status = document.querySelector("#help-status");
+    status.textContent = "";
+    try { await window.__TAURI__.core.invoke("open_help", { target, locale: document.documentElement.lang }); }
+    catch (_) { status.textContent = messages.helpOpenFailed; }
+  };
+  document.querySelector("#open-help-guide").addEventListener("click", openHelp("guide"));
+  document.querySelector("#open-forum").addEventListener("click", openHelp("forum"));
   document.querySelector("#open-vega").addEventListener("click", async () => {
     const status = document.querySelector("#launch-status");
     try {
@@ -214,6 +222,34 @@
       status.textContent = messages.vegaOpened;
     } catch (_) {
       status.textContent = messages.vegaOpenFailed;
+    }
+  });
+  // Verificação semanal do Vega: o cartão só aparece com um vegad que a tem.
+  const healthCard = document.querySelector("#health-card");
+  const healthSwitch = document.querySelector("#health-switch");
+  const healthStatus = document.querySelector("#health-status");
+  const showHealth = (state) => {
+    healthSwitch.checked = state === "on";
+    healthStatus.textContent = state === "on" ? messages.healthOn : messages.healthOff;
+  };
+  const loadHealth = async () => {
+    let state = "unavailable";
+    try { state = await window.__TAURI__.core.invoke("health_check"); } catch (_) { /* fica oculto */ }
+    healthCard.hidden = state === "unavailable";
+    if (!healthCard.hidden) showHealth(state);
+  };
+  healthSwitch.addEventListener("change", async () => {
+    const wanted = healthSwitch.checked;
+    healthSwitch.disabled = true;
+    try {
+      showHealth(await window.__TAURI__.core.invoke("set_health_check", { enabled: wanted }));
+    } catch (readback) {
+      // Senha cancelada ou erro: mostra o estado que o sistema confirmou.
+      if (readback === "on" || readback === "off") showHealth(readback);
+      else healthSwitch.checked = !wanted;
+      healthStatus.textContent = messages.healthFailed;
+    } finally {
+      healthSwitch.disabled = false;
     }
   });
   document.querySelector("#finish").addEventListener("click", async () => {
@@ -224,4 +260,5 @@
   themePicker.load();
   profilePicker.load();
   checkNetwork();
+  loadHealth();
 })();
