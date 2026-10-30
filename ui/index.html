@@ -22,6 +22,7 @@
         <span class="progress-dot" aria-hidden="true"></span>
         <span class="progress-dot" aria-hidden="true"></span>
         <span class="progress-dot" aria-hidden="true"></span>
+        <span class="progress-dot" aria-hidden="true"></span>
         <span id="step-label" class="step-label" aria-live="polite"></span>
       </div>
 
@@ -127,6 +128,25 @@
           </div>
         </div>
         <div class="visual network-visual" aria-hidden="true"><span class="wifi-ring ring-1"></span><span class="wifi-ring ring-2"></span><span class="wifi-ring ring-3"></span><span class="wifi-core">●</span></div>
+      </section>
+
+      <section class="page" data-page="help" aria-labelledby="help-title" hidden>
+        <div class="copy">
+          <p class="eyebrow" data-i18n="helpEyebrow">IF YOU NEED IT</p>
+          <h1 id="help-title" tabindex="-1" data-i18n="helpTitle">Getting help</h1>
+          <p class="lead" data-i18n="helpLead">If something does not work, Vega helps you find out why and ask the community for help.</p>
+          <ol class="help-steps">
+            <li><span class="vega-mark" aria-hidden="true">✓</span><div><h2 data-i18n="helpDiagTitle">Health diagnostics</h2><p data-i18n="helpDiagText">In Vega, Hardware → Health diagnostics shows what is wrong and fixes what is safe to fix.</p></div></li>
+            <li><span class="vega-mark" aria-hidden="true">?</span><div><h2 data-i18n="helpAskTitle">Ask for help</h2><p data-i18n="helpAskText">In the diagnostics report, Ask for help writes the text for the forum, without your personal data.</p></div></li>
+            <li><span class="vega-mark" aria-hidden="true">◌</span><div><h2 data-i18n="helpNetTitle">No internet?</h2><p data-i18n="helpNetText">Network → My internet does not work shows the step where the connection stopped.</p></div></li>
+          </ol>
+          <div class="actions-inline">
+            <button id="open-help-guide" class="secondary" type="button"><span data-i18n="helpGuide">Read the guide</span><span aria-hidden="true">↗</span></button>
+            <button id="open-forum" class="secondary" type="button"><span data-i18n="helpForum">Open the forum</span><span aria-hidden="true">↗</span></button>
+          </div>
+          <p id="help-status" class="launch-status" role="status" aria-live="polite"></p>
+        </div>
+        <div class="visual help-visual" aria-hidden="true"><div class="help-orb">?</div></div>
       </section>
 
       <section class="page" data-page="vega" aria-labelledby="vega-title" hidden>

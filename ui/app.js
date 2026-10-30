@@ -207,6 +207,14 @@
     try { await window.__TAURI__.core.invoke("open_wifi_settings"); }
     catch (_) { showNetworkStatus("unknown"); }
   });
+  const openHelp = (target) => async () => {
+    const status = document.querySelector("#help-status");
+    status.textContent = "";
+    try { await window.__TAURI__.core.invoke("open_help", { target, locale: document.documentElement.lang }); }
+    catch (_) { status.textContent = messages.helpOpenFailed; }
+  };
+  document.querySelector("#open-help-guide").addEventListener("click", openHelp("guide"));
+  document.querySelector("#open-forum").addEventListener("click", openHelp("forum"));
   document.querySelector("#open-vega").addEventListener("click", async () => {
     const status = document.querySelector("#launch-status");
     try {

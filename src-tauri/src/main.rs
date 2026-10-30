@@ -186,6 +186,29 @@ fn open_wifi_settings() -> Result<(), String> {
     launch("/usr/bin/gnome-control-center", &["wifi"])
 }
 
+/// The "Getting help" page links: the guide on the site, in the user's
+/// language, and the forum. Fixed addresses only.
+fn help_url(target: &str, locale: &str) -> Option<&'static str> {
+    match target {
+        "forum" => {
+            Some("https://github.com/lyra-os-linux/lyraos-desktop/discussions/categories/q-a")
+        }
+        "guide" => Some(match locale.split(['-', '_']).next().unwrap_or("") {
+            "pt" => "https://lyraos.com.br/docs/pedir-ajuda.html",
+            "es" => "https://lyraos.com.br/docs/es/pedir-ajuda.html",
+            _ => "https://lyraos.com.br/docs/en/pedir-ajuda.html",
+        }),
+        _ => None,
+    }
+}
+
+#[tauri::command]
+fn open_help(target: String, locale: String) -> Result<(), String> {
+    let url = help_url(&target, &locale).ok_or("unknown help link")?;
+    // gio (glib2-tools, already required) opens the default browser.
+    launch("/usr/bin/gio", &["open", url])
+}
+
 #[tauri::command]
 fn open_vega() -> Result<(), String> {
     launch("/usr/bin/vega-gtk", &[])
@@ -215,6 +238,7 @@ fn main() {
             desktop_profile,
             health_check,
             set_health_check,
+            open_help,
             set_desktop_profile,
             open_wifi_settings,
             open_vega,
@@ -227,6 +251,29 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::parse_periodic;
+
+    #[test]
+    fn help_links_are_fixed_and_follow_the_language() {
+        use super::help_url;
+        assert_eq!(
+            help_url("guide", "pt-BR"),
+            Some("https://lyraos.com.br/docs/pedir-ajuda.html")
+        );
+        assert_eq!(
+            help_url("guide", "es"),
+            Some("https://lyraos.com.br/docs/es/pedir-ajuda.html")
+        );
+        assert_eq!(
+            help_url("guide", "en-US"),
+            Some("https://lyraos.com.br/docs/en/pedir-ajuda.html")
+        );
+        assert!(
+            help_url("forum", "pt-BR")
+                .unwrap()
+                .ends_with("/discussions/categories/q-a")
+        );
+        assert_eq!(help_url("file:///etc/passwd", "pt"), None);
+    }
 
     #[test]
     fn periodic_output_from_gdbus() {
