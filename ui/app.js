@@ -224,6 +224,18 @@
       status.textContent = messages.vegaOpenFailed;
     }
   });
+  // Lyra Driver: o botão só aparece quando o pacote lyra-driver está instalado.
+  const openDriver = document.querySelector("#open-driver");
+  window.__TAURI__.core.invoke("lyra_driver_installed").then((installed) => { openDriver.hidden = !installed; }).catch(() => {});
+  openDriver.addEventListener("click", async () => {
+    const status = document.querySelector("#launch-status");
+    try {
+      await window.__TAURI__.core.invoke("open_lyra_driver");
+      status.textContent = messages.driverOpened;
+    } catch (_) {
+      status.textContent = messages.driverOpenFailed;
+    }
+  });
   // Verificação semanal do Vega: o cartão só aparece com um vegad que a tem.
   const healthCard = document.querySelector("#health-card");
   const healthSwitch = document.querySelector("#health-switch");

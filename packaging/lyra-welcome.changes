@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Mon Nov 16 2026 - Rodrigo Brito <183213+britors@users.noreply.github.com>
+
+- 0.6.0: the Vega page shows an "Open Lyra Driver" button when the
+  lyra-driver package is installed (it is preinstalled from the next
+  image on).
+
+-------------------------------------------------------------------
 Fri Oct 30 2026 - Rodrigo Brito <183213+britors@users.noreply.github.com>
 
 - 0.5.0: new "Getting help" page after the network one, with the
