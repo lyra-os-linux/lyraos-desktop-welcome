@@ -214,6 +214,19 @@ fn open_vega() -> Result<(), String> {
     launch("/usr/bin/vega-gtk", &[])
 }
 
+/// The Lyra Driver app (package lyra-driver), shown only when installed.
+const LYRA_DRIVER: &str = "/usr/bin/lyra-driver";
+
+#[tauri::command]
+fn lyra_driver_installed() -> bool {
+    std::path::Path::new(LYRA_DRIVER).is_file()
+}
+
+#[tauri::command]
+fn open_lyra_driver() -> Result<(), String> {
+    launch(LYRA_DRIVER, &[])
+}
+
 #[tauri::command]
 fn close_welcome(window: tauri::WebviewWindow) -> Result<(), String> {
     window.close().map_err(|error| error.to_string())
@@ -242,6 +255,8 @@ fn main() {
             set_desktop_profile,
             open_wifi_settings,
             open_vega,
+            lyra_driver_installed,
+            open_lyra_driver,
             close_welcome
         ])
         .run(tauri::generate_context!())
